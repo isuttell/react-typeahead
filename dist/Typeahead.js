@@ -243,7 +243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      var ev = {
 	        target: {
-	          value: this.props.extract(option.original)
+	          value: option.original.value
 	        }
 	      };
 	      this.handleChange(ev, function () {

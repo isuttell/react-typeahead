@@ -123,7 +123,7 @@ class Typeahead extends React.Component {
     }
     let ev = {
       target: {
-        value: this.props.extract(option.original)
+        value: option.original.value
       }
     };
     this.handleChange(ev, () => {
