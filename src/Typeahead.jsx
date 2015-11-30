@@ -23,8 +23,8 @@ class Typeahead extends React.Component {
     super(props);
     this.state = {
       hide: true,
-      visible: this.getResults(this.props.defaultValue, props.options),
-      value: this.props.defaultValue,
+      visible: this.getResults.call(this, props.defaultValue, props.options),
+      value: props.defaultValue,
       selected: 0
     };
 
