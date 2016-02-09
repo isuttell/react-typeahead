@@ -36,3 +36,20 @@
   font-weight: 700;
   text-decoration: underline;
 }
+
+.loading {
+  position: absolute;
+  right: 0;
+  top: 0;
+  animation: spin linear infinite 1s;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

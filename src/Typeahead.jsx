@@ -256,23 +256,29 @@ class Typeahead extends React.Component {
       <div className={classes}>
         <OutsideClick className={classNames('typeahead--container', css.container)}
           onClick={this.handleOutsideClick.bind(this)}>
-          <TextInput
-            className={classNames('typeahead--input', css.input)}
-            onChange={this.handleChange.bind(this)}
-            onKeyDown={this.handleKeyDown.bind(this)}
-            onBlur={this.props.onBlur}
-            value={this.state.value}
-            validate={this.props.validate}
-            defaultValue={this.props.defaultValue}
-            minRows={1}
-            maxRows={1}
-            label={this.props.placeholder} />
+          <div>
+            <TextInput
+              className={classNames('typeahead--input', css.input)}
+              onChange={this.handleChange.bind(this)}
+              onKeyDown={this.handleKeyDown.bind(this)}
+              onBlur={this.props.onBlur}
+              value={this.state.value}
+              validate={this.props.validate}
+              defaultValue={this.props.defaultValue}
+              minRows={1}
+              maxRows={1}
+              label={this.props.placeholder}
+            />
+            {this.props.isLoading ?
+              <span className={classNames('icon-refresh', css.loading)}/>
+            : null}
+          </div>
           <TypeaheadList
-            empty={this.state.hide ? void 0 : this.props.empty}
+            empty={this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.value}
             extract={this.props.extract}
-            visible={this.state.hide !== true ? this.state.visible : []}
+            visible={this.state.visible}
             onSelected={this.handleSelected} />
         </OutsideClick>
       </div>
