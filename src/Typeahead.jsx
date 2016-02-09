@@ -126,10 +126,14 @@ class Typeahead extends React.Component {
         value: option.original.value
       }
     };
+    // Check to see if the event was cancelled elsewhere
+    const { defaultPrevented } = event;
+
     this.handleChange(ev, () => {
-      if (this.props.onSelected) {
+      if (this.props.onSelected && !defaultPrevented) {
         this.props.onSelected(this.state.value);
       }
+
       this.setState({
         hide: true
       });
