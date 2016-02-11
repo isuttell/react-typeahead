@@ -19,10 +19,10 @@ export default class TypeaheadList extends React.Component {
    * Render list by order of score
    */
   render() {
-    if (!this.props.value){
+    if (!this.props.value || this.props.visible instanceof Array !== true){
       // Nothing to filter by yet
       return null;
-    } else if (!this.props.visible.length && this.props.empty !== false) {
+    } else if (this.props.visible.length === 0 && this.props.empty !== false) {
       // Can't find anything
       return (
         <ul className={classNames('typeahead--list', css.list)}>
