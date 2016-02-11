@@ -274,11 +274,11 @@ class Typeahead extends React.Component {
             : null}
           </div>
           <TypeaheadList
-            empty={this.props.isLoading ? void 0 : this.props.empty}
+            empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.value}
             extract={this.props.extract}
-            visible={this.state.visible}
+            visible={this.state.hide ? [] : this.state.visible}
             onSelected={this.handleSelected} />
         </OutsideClick>
       </div>
