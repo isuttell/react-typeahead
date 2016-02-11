@@ -14,7 +14,7 @@ import TypeaheadOption from './TypeaheadOption';
 
 import css from './typeahead.css';
 
-export default class Typeahead extends React.Component {
+export default class TypeaheadList extends React.Component {
   /**
    * Render list by order of score
    */
@@ -56,7 +56,7 @@ export default class Typeahead extends React.Component {
  * @static
  * @type {Object}
  */
-Typeahead.defaultProps = {
+TypeaheadList.defaultProps = {
   empty: false,
   visible: [],
   onSelected: function(){}
