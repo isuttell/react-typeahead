@@ -262,6 +262,7 @@ class Typeahead extends React.Component {
               onChange={this.handleChange.bind(this)}
               onKeyDown={this.handleKeyDown.bind(this)}
               onBlur={this.props.onBlur}
+              onFocus={this.props.onFocus}
               value={this.state.value}
               validate={this.props.validate}
               defaultValue={this.props.defaultValue}
