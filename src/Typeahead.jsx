@@ -29,7 +29,7 @@ class Typeahead extends React.Component {
     };
 
     // Ensure proper context
-    const bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown'];
+    const bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown', 'handleValidate'];
     bindFn.forEach((fn)=> this[fn] = this[fn].bind(this));
   }
 
@@ -62,7 +62,7 @@ class Typeahead extends React.Component {
    */
   getResults(value, options) {
     var results = fuzzy.filter(value || '', options, {
-      pre: '<span class=\'typeahead-found\'>',
+      pre: '<span class=\'' + this.props.matchedClass + '\'>',
       post: '</span>',
       extract: this.props.extract
     });
@@ -74,7 +74,7 @@ class Typeahead extends React.Component {
       results.unshift(exacted);
     }
 
-    if (this.props.maxVisible) {
+    if (this.props.maxVisible && this.props.maxVisible > 0) {
       results = results.slice(0, this.props.maxVisible);
     }
 
@@ -91,9 +91,10 @@ class Typeahead extends React.Component {
     };
 
     // Get new results
-    state.visible = this.getResults(event.target.value, this.props.options);
+    state.visible = state.value.length > 0 ? this.getResults(event.target.value, this.props.options) : [];
+
     state.hide = false;
-    if(state.visible.length === 1) {
+    if (state.visible.length === 1) {
       state.hide = state.visible[0].original.value === event.target.value;
     }
 
@@ -121,22 +122,29 @@ class Typeahead extends React.Component {
     if (typeof option !== 'object') {
       throw new TypeError('Option is not an object');
     }
+    if (this.state.value.length === '' || this.state.visible.length === 0) {
+      return;
+    }
     let ev = {
       target: {
         value: option.original.value
       }
     };
-    // Check to see if the event was cancelled elsewhere
-    const { defaultPrevented } = event;
 
     this.handleChange(ev, () => {
-      if (this.props.onSelected && !defaultPrevented) {
-        this.props.onSelected(this.state.value);
+      if (this.props.onSelected) {
+        this.props.onSelected(option, event);
       }
 
-      this.setState({
+      let state = {
         hide: true
-      });
+      };
+      if (this.props.clearOnSelect) {
+        state.value = '';
+        state.selected = 0;
+        state.visible = [];
+      }
+      this.setState(state);
     });
 
   }
@@ -168,8 +176,12 @@ class Typeahead extends React.Component {
    */
   _onEnter(event) {
     if (this.state.visible[this.state.selected]) {
-      this.handleSelected(this.state.visible[this.state.selected], event);
+      this.handleSelected(this.getSelected(), event);
     }
+  }
+
+  getSelected() {
+    return this.state.visible[this.state.selected];
   }
 
   /**
@@ -236,6 +248,13 @@ class Typeahead extends React.Component {
     );
   }
 
+  handleValidate(value) {
+    if (typeof this.props.validate === 'function') {
+      return this.props.validate(value, this.getSelected());
+    }
+    return true;
+  }
+
   /**
    * Render
    *
@@ -255,7 +274,8 @@ class Typeahead extends React.Component {
     return (
       <div className={classes}>
         <OutsideClick className={classNames('typeahead--container', css.container)}
-          onClick={this.handleOutsideClick.bind(this)}>
+          onClick={this.handleOutsideClick.bind(this)}
+        >
           <div>
             <TextInput
               className={classNames('typeahead--input', css.input)}
@@ -264,8 +284,9 @@ class Typeahead extends React.Component {
               onBlur={this.props.onBlur}
               onFocus={this.props.onFocus}
               value={this.state.value}
-              validate={this.props.validate}
+              validate={this.handleValidate}
               defaultValue={this.props.defaultValue}
+              editable
               minRows={1}
               maxRows={1}
               label={this.props.placeholder}
@@ -296,6 +317,8 @@ Typeahead.defaultProps = {
   defaultValue: '',
   placeholder: '',
   maxVisible: 5,
+  clearOnSelect: false,
+  matchedClass: 'typeahead-found',
   extract: function(item) {
     return item;
   }
