@@ -1,7 +1,7 @@
 {
-  "name": "react-typeahead",
+  "name": "ship-components-typeahead",
   "version": "0.1.0",
-  "description": "Material Design React Buttons",
+  "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {
     "start": "grunt server",
@@ -13,7 +13,10 @@
     "url": "git+https://github.com/ship-components/ship-components-typeahead.git"
   },
   "keywords": [
-    "react"
+    "react",
+    "material design",
+    "typeahead",
+    "es2015"
   ],
   "author": "Isaac Suttell <isaac@isaacsuttell.com>",
   "license": "MIT",
