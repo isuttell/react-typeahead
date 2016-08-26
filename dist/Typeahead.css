@@ -39,4 +39,36 @@
   text-decoration: underline;
 }
 
+.typeahead--loading {
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-animation: typeahead--spin linear infinite 1s;
+          animation: typeahead--spin linear infinite 1s;
+}
+
+@-webkit-keyframes typeahead--spin {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes typeahead--spin {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
 /*# sourceMappingURL=Typeahead.css.map*/

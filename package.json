@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ship-components/react-typeahead.git"
+    "url": "git+https://github.com/ship-components/ship-components-typeahead.git"
   },
   "keywords": [
     "react"
@@ -18,15 +18,15 @@
   "author": "Isaac Suttell <isaac@isaacsuttell.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ship-components/react-typeahead/issues"
+    "url": "https://github.com/ship-components/ship-components-typeahead/issues"
   },
-  "homepage": "https://github.com/ship-components/react-typeahead#readme",
+  "homepage": "https://github.com/ship-components/ship-components-typeahead#readme",
   "devDependencies": {
     "autoprefixer": "^6.1.0",
     "babel": "^6.0.15",
     "babel-core": "^6.1.4",
     "babel-eslint": "^4.1.5",
-    "babel-jest": "git+https://github.com/isuttell/babel-jest.git#master",
+    "babel-jest": "^14.1.0",
     "babel-loader": "^6.1.0",
     "babel-plugin-transform-es2015-classes": "^6.9.0",
     "babel-preset-es2015": "^6.1.4",
@@ -58,6 +58,8 @@
     "react-dom": "^0.14.2",
     "react-outsideclick": "git+https://github.com/ship-components/react-outsideclick.git#master",
     "react-textinput": "git+https://github.com/ship-components/react-textinput.git#master",
+    "ship-components-outsideclick": "^0.1.1",
+    "ship-components-textinput": "^0.1.1",
     "strict-loader": "^0.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.4",

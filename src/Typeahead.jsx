@@ -9,8 +9,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import fuzzy from 'fuzzy';
-import TextInput from 'react-textinput';
-import OutsideClick from 'react-outsideclick';
+import TextInput from 'ship-components-textinput';
+import OutsideClick from 'ship-components-outsideclick';
 
 // Components
 import TypeaheadList from './TypeaheadList';

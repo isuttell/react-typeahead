@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"), require("classnames"), require("react-outsideclick"), require("react-textinput"));
+		module.exports = factory(require("React"), require("classnames"), require("ship-components-outsideclick"), require("ship-components-textinput"));
 	else if(typeof define === 'function' && define.amd)
-		define(["React", "classnames", "react-outsideclick", "react-textinput"], factory);
+		define(["React", "classnames", "ship-components-outsideclick", "ship-components-textinput"], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("React"), require("classnames"), require("react-outsideclick"), require("react-textinput")) : factory(root["React"], root["classnames"], root["react-outsideclick"], root["react-textinput"]);
+		var a = typeof exports === 'object' ? factory(require("React"), require("classnames"), require("ship-components-outsideclick"), require("ship-components-textinput")) : factory(root["React"], root["classnames"], root["ship-components-outsideclick"], root["ship-components-textinput"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
@@ -65,9 +65,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// Modules
 	;
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -84,13 +81,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _fuzzy2 = _interopRequireDefault(_fuzzy);
 	
-	var _reactTextinput = __webpack_require__(8);
+	var _shipComponentsTextinput = __webpack_require__(8);
 	
-	var _reactTextinput2 = _interopRequireDefault(_reactTextinput);
+	var _shipComponentsTextinput2 = _interopRequireDefault(_shipComponentsTextinput);
 	
-	var _reactOutsideclick = __webpack_require__(7);
+	var _shipComponentsOutsideclick = __webpack_require__(7);
 	
-	var _reactOutsideclick2 = _interopRequireDefault(_reactOutsideclick);
+	var _shipComponentsOutsideclick2 = _interopRequireDefault(_shipComponentsOutsideclick);
 	
 	var _TypeaheadList = __webpack_require__(4);
 	
@@ -118,17 +115,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Typeahead(props) {
 	    _classCallCheck(this, Typeahead);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Typeahead).call(this, props));
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	    _this.state = {
 	      hide: true,
-	      visible: _this.getResults(_this.props.defaultValue, props.options),
-	      value: _this.props.defaultValue,
+	      visible: _this.getResults.call(_this, props.defaultValue, props.options),
+	      value: props.defaultValue,
 	      selected: 0
 	    };
 	
 	    // Ensure proper context
-	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown'];
+	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown', 'handleValidate'];
 	    bindFn.forEach(function (fn) {
 	      return _this[fn] = _this[fn].bind(_this);
 	    });
@@ -141,284 +138,292 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param     {Object}    nextProps
 	   */
 	
-	  _createClass(Typeahead, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      var value = this.state.value;
-	      if (nextProps.defaultValue !== this.props.defaultValue) {
-	        value = nextProps.defaultValue;
-	      }
-	
-	      // Get new results
-	      var results = this.getResults(value, nextProps.options);
-	
-	      this.setState({
-	        visible: results,
-	        selected: 0
-	      });
+	  Typeahead.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	    var value = this.state.value;
+	    if (nextProps.defaultValue !== this.props.defaultValue) {
+	      value = nextProps.defaultValue;
 	    }
 	
-	    /**
-	     * Search get fuzzy search results
-	     *
-	     * @param     {String}           value
-	     * @param     {Array<string>}    options
-	     * @return    {Array<object>}
-	     */
+	    // Get new results
+	    var results = this.getResults(value, nextProps.options);
 	
-	  }, {
-	    key: 'getResults',
-	    value: function getResults(value, options) {
-	      var results = _fuzzy2.default.filter(value || '', options, {
-	        pre: '<span class=\'typeahead-found\'>',
-	        post: '</span>',
-	        extract: this.props.extract
-	      });
+	    this.setState({
+	      visible: results,
+	      selected: 0
+	    });
+	  };
 	
-	      // If we have an exact match, move it to the top
-	      var exactIndex = results.findIndex(function (result) {
-	        return result.original.value === value;
-	      });
-	      if (exactIndex > -1) {
-	        var exacted = results.splice(exactIndex, 1)[0];
-	        results.unshift(exacted);
-	      }
+	  /**
+	   * Search get fuzzy search results
+	   *
+	   * @param     {String}           value
+	   * @param     {Array<string>}    options
+	   * @return    {Array<object>}
+	   */
 	
-	      if (this.props.maxVisible) {
-	        results = results.slice(0, this.props.maxVisible);
-	      }
+	  Typeahead.prototype.getResults = function getResults(value, options) {
+	    var results = _fuzzy2.default.filter(value || '', options, {
+	      pre: '<span class=\'' + this.props.matchedClass + '\'>',
+	      post: '</span>',
+	      extract: this.props.extract
+	    });
 	
-	      return results;
+	    // If we have an exact match, move it to the top
+	    var exactIndex = results.findIndex(function (result) {
+	      return result.original.value === value;
+	    });
+	    if (exactIndex > -1) {
+	      var exacted = results.splice(exactIndex, 1)[0];
+	      results.unshift(exacted);
 	    }
 	
-	    /**
-	     * Update the search results and parent
-	     */
+	    if (this.props.maxVisible && this.props.maxVisible > 0) {
+	      results = results.slice(0, this.props.maxVisible);
+	    }
 	
-	  }, {
-	    key: 'handleChange',
-	    value: function handleChange(event, callback) {
-	      var _this2 = this;
+	    return results;
+	  };
+	
+	  /**
+	   * Update the search results and parent
+	   */
+	
+	  Typeahead.prototype.handleChange = function handleChange(event, callback) {
+	    var _this2 = this;
+	
+	    var state = {
+	      value: event.target.value,
+	      selected: 0
+	    };
+	
+	    // Get new results
+	    state.visible = state.value.length > 0 ? this.getResults(event.target.value, this.props.options) : [];
+	
+	    state.hide = false;
+	    if (state.visible.length === 1) {
+	      state.hide = state.visible[0].original.value === event.target.value;
+	    }
+	
+	    this.setState(state, function () {
+	      if (_this2.props.onChange) {
+	        _this2.props.onChange({
+	          target: {
+	            value: _this2.state.value
+	          }
+	        });
+	      }
+	      if (callback) {
+	        callback();
+	      }
+	    });
+	  };
+	
+	  /**
+	    * Handle list item clicks
+	    *
+	    * @param     {Object}    option
+	    */
+	
+	  Typeahead.prototype.handleSelected = function handleSelected(option, event) {
+	    var _this3 = this;
+	
+	    event.stopPropagation();
+	    if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) !== 'object') {
+	      throw new TypeError('Option is not an object');
+	    }
+	    if (this.state.value.length === '' || this.state.visible.length === 0) {
+	      return;
+	    }
+	    var ev = {
+	      target: {
+	        value: option.original.value
+	      }
+	    };
+	
+	    this.handleChange(ev, function () {
+	      if (_this3.props.onSelected) {
+	        _this3.props.onSelected(option, event);
+	      }
 	
 	      var state = {
-	        value: event.target.value,
-	        selected: 0
-	      };
-	
-	      // Get new results
-	      state.visible = this.getResults(event.target.value, this.props.options);
-	      state.hide = false;
-	      if (state.visible.length === 1) {
-	        state.hide = state.visible[0].original.value === event.target.value;
-	      }
-	
-	      this.setState(state, function () {
-	        if (_this2.props.onChange) {
-	          _this2.props.onChange({
-	            target: {
-	              value: _this2.state.value
-	            }
-	          });
-	        }
-	        if (callback) {
-	          callback();
-	        }
-	      });
-	    }
-	
-	    /**
-	      * Handle list item clicks
-	      *
-	      * @param     {Object}    option
-	      */
-	
-	  }, {
-	    key: 'handleSelected',
-	    value: function handleSelected(option, event) {
-	      var _this3 = this;
-	
-	      event.stopPropagation();
-	      if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) !== 'object') {
-	        throw new TypeError('Option is not an object');
-	      }
-	      var ev = {
-	        target: {
-	          value: option.original.value
-	        }
-	      };
-	      this.handleChange(ev, function () {
-	        if (_this3.props.onSelected) {
-	          _this3.props.onSelected(_this3.state.value);
-	        }
-	        _this3.setState({
-	          hide: true
-	        });
-	      });
-	    }
-	
-	    /**
-	     * Associate a function handler depending on the keypress
-	     *
-	     * @param     {Number}    keyCode
-	     * @return    {Function}
-	     */
-	
-	  }, {
-	    key: 'keyEvent',
-	    value: function keyEvent(keyCode) {
-	      switch (keyCode) {
-	        case 'Enter':
-	        case 'Tab':
-	          return this._onEnter;
-	        case 'ArrowDown':
-	        case 'Down':
-	          return this._onDown;
-	        case 'ArrowUp':
-	        case 'Up':
-	          return this._onUp;
-	        default:
-	          return void 9;
-	      }
-	    }
-	
-	    /**
-	     * Activate the currently selected item
-	     */
-	
-	  }, {
-	    key: '_onEnter',
-	    value: function _onEnter(event) {
-	      if (this.state.visible[this.state.selected]) {
-	        this.handleSelected(this.state.visible[this.state.selected], event);
-	      }
-	    }
-	
-	    /**
-	     * Event to move the selection up the list
-	     */
-	
-	  }, {
-	    key: '_onUp',
-	    value: function _onUp() {
-	      var current = this.state.selected;
-	      this.setState({
-	        selected: current > 0 ? current - 1 : 0
-	      });
-	    }
-	
-	    /**
-	     * Event to move the selection down the list
-	     */
-	
-	  }, {
-	    key: '_onDown',
-	    value: function _onDown() {
-	      var current = this.state.selected;
-	      var max = this.state.visible.length - 1;
-	      this.setState({
-	        selected: current < max ? current + 1 : max
-	      });
-	    }
-	  }, {
-	    key: 'stopHiding',
-	    value: function stopHiding() {
-	      if (this.state.hide === true) {
-	        this.setState({
-	          hide: false
-	        });
-	      }
-	    }
-	
-	    /**
-	     * Call any associated key events
-	     *
-	     * @param     {Event}    event
-	     */
-	
-	  }, {
-	    key: 'handleKeyDown',
-	    value: function handleKeyDown(event) {
-	      this.stopHiding();
-	      var handler = this.keyEvent(event.key);
-	      if (typeof handler === 'function') {
-	        event.preventDefault();
-	        handler.call(this, event);
-	      }
-	      if (this.props.onKeyDown) {
-	        this.props.onKeyDown(event);
-	      }
-	    }
-	  }, {
-	    key: 'handleOutsideClick',
-	    value: function handleOutsideClick() {
-	      this.setState({
 	        hide: true
+	      };
+	      if (_this3.props.clearOnSelect) {
+	        state.value = '';
+	        state.selected = 0;
+	        state.visible = [];
+	      }
+	      _this3.setState(state);
+	    });
+	  };
+	
+	  /**
+	   * Associate a function handler depending on the keypress
+	   *
+	   * @param     {Number}    keyCode
+	   * @return    {Function}
+	   */
+	
+	  Typeahead.prototype.keyEvent = function keyEvent(keyCode) {
+	    switch (keyCode) {
+	      case 'Enter':
+	      case 'Tab':
+	        return this._onEnter;
+	      case 'ArrowDown':
+	      case 'Down':
+	        return this._onDown;
+	      case 'ArrowUp':
+	      case 'Up':
+	        return this._onUp;
+	      default:
+	        return void 9;
+	    }
+	  };
+	
+	  /**
+	   * Activate the currently selected item
+	   */
+	
+	  Typeahead.prototype._onEnter = function _onEnter(event) {
+	    if (this.state.visible[this.state.selected]) {
+	      this.handleSelected(this.getSelected(), event);
+	    }
+	  };
+	
+	  Typeahead.prototype.getSelected = function getSelected() {
+	    return this.state.visible[this.state.selected];
+	  };
+	
+	  /**
+	   * Event to move the selection up the list
+	   */
+	
+	  Typeahead.prototype._onUp = function _onUp() {
+	    var current = this.state.selected;
+	    this.setState({
+	      selected: current > 0 ? current - 1 : 0
+	    });
+	  };
+	
+	  /**
+	   * Event to move the selection down the list
+	   */
+	
+	  Typeahead.prototype._onDown = function _onDown() {
+	    var current = this.state.selected;
+	    var max = this.state.visible.length - 1;
+	    this.setState({
+	      selected: current < max ? current + 1 : max
+	    });
+	  };
+	
+	  Typeahead.prototype.stopHiding = function stopHiding() {
+	    if (this.state.hide === true) {
+	      this.setState({
+	        hide: false
 	      });
 	    }
-	  }, {
-	    key: 'renderEmpty',
-	    value: function renderEmpty(classes) {
-	      return _react2.default.createElement(
+	  };
+	
+	  /**
+	   * Call any associated key events
+	   *
+	   * @param     {Event}    event
+	   */
+	
+	  Typeahead.prototype.handleKeyDown = function handleKeyDown(event) {
+	    this.stopHiding();
+	    var handler = this.keyEvent(event.key);
+	    if (typeof handler === 'function') {
+	      event.preventDefault();
+	      handler.call(this, event);
+	    }
+	    if (this.props.onKeyDown) {
+	      this.props.onKeyDown(event);
+	    }
+	  };
+	
+	  Typeahead.prototype.handleOutsideClick = function handleOutsideClick() {
+	    this.setState({
+	      hide: true
+	    });
+	  };
+	
+	  Typeahead.prototype.renderEmpty = function renderEmpty(classes) {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: classes },
+	      _react2.default.createElement(
 	        'div',
-	        { className: classes },
+	        { className: 'typeahead--container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'typeahead--container' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'typeahead--input form-input' },
-	            this.props.defaultValue
-	          )
+	          { className: 'typeahead--input form-input' },
+	          this.props.defaultValue
 	        )
-	      );
+	      )
+	    );
+	  };
+	
+	  Typeahead.prototype.handleValidate = function handleValidate(value) {
+	    if (typeof this.props.validate === 'function') {
+	      return this.props.validate(value, this.getSelected());
+	    }
+	    return true;
+	  };
+	
+	  /**
+	   * Render
+	   *
+	   * @return    {Render}
+	   */
+	
+	  Typeahead.prototype.render = function render() {
+	    var classes = (0, _classnames2.default)('typeahead', this.props.className, {
+	      'typeahead--editable': this.props.editable
+	    });
+	
+	    if (!this.props.editable) {
+	      return this.renderEmpty(classes);
 	    }
 	
-	    /**
-	     * Render
-	     *
-	     * @return    {Render}
-	     */
-	
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var classes = (0, _classnames2.default)('typeahead', this.props.className, {
-	        'typeahead--editable': this.props.editable
-	      });
-	
-	      if (!this.props.editable) {
-	        return this.renderEmpty(classes);
-	      }
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: classes },
+	    return _react2.default.createElement(
+	      'div',
+	      { className: classes },
+	      _react2.default.createElement(
+	        _shipComponentsOutsideclick2.default,
+	        { className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
+	          onClick: this.handleOutsideClick.bind(this)
+	        },
 	        _react2.default.createElement(
-	          _reactOutsideclick2.default,
-	          { className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
-	            onClick: this.handleOutsideClick.bind(this) },
-	          _react2.default.createElement(_reactTextinput2.default, {
+	          'div',
+	          null,
+	          _react2.default.createElement(_shipComponentsTextinput2.default, {
 	            className: (0, _classnames2.default)('typeahead--input', _typeahead2.default.input),
 	            onChange: this.handleChange.bind(this),
 	            onKeyDown: this.handleKeyDown.bind(this),
 	            onBlur: this.props.onBlur,
+	            onFocus: this.props.onFocus,
 	            value: this.state.value,
-	            validate: this.props.validate,
+	            validate: this.handleValidate,
 	            defaultValue: this.props.defaultValue,
+	            editable: true,
 	            minRows: 1,
 	            maxRows: 1,
-	            label: this.props.placeholder }),
-	          _react2.default.createElement(_TypeaheadList2.default, {
-	            empty: this.state.hide ? void 0 : this.props.empty,
-	            selected: this.state.selected,
-	            value: this.state.value,
-	            extract: this.props.extract,
-	            visible: this.state.hide !== true ? this.state.visible : [],
-	            onSelected: this.handleSelected })
-	        )
-	      );
-	    }
-	  }]);
+	            label: this.props.placeholder
+	          }),
+	          this.props.isLoading ? _react2.default.createElement('span', { className: (0, _classnames2.default)('icon-refresh', _typeahead2.default.loading) }) : null
+	        ),
+	        _react2.default.createElement(_TypeaheadList2.default, {
+	          empty: this.state.hide || this.props.isLoading ? void 0 : this.props.empty,
+	          selected: this.state.selected,
+	          value: this.state.value,
+	          extract: this.props.extract,
+	          visible: this.state.hide ? [] : this.state.visible,
+	          onSelected: this.handleSelected })
+	      )
+	    );
+	  };
 	
 	  return Typeahead;
 	})(_react2.default.Component);
@@ -432,6 +437,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  defaultValue: '',
 	  placeholder: '',
 	  maxVisible: 5,
+	  clearOnSelect: false,
+	  matchedClass: 'typeahead-found',
 	  extract: function extract(item) {
 	    return item;
 	  }
@@ -444,7 +451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","selected":"typeahead--selected","found":"typeahead--found"};
+	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","selected":"typeahead--selected","found":"typeahead--found","loading":"typeahead--loading","spin":"typeahead--spin"};
 
 /***/ },
 /* 2 */
@@ -473,9 +480,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// Modules
 	;
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -506,56 +510,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// Components
 	
-	var Typeahead = (function (_React$Component) {
-	  _inherits(Typeahead, _React$Component);
+	var TypeaheadList = (function (_React$Component) {
+	  _inherits(TypeaheadList, _React$Component);
 	
-	  function Typeahead() {
-	    _classCallCheck(this, Typeahead);
+	  function TypeaheadList() {
+	    _classCallCheck(this, TypeaheadList);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Typeahead).apply(this, arguments));
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
 	  }
 	
-	  _createClass(Typeahead, [{
-	    key: 'render',
+	  /**
+	   * Render list by order of score
+	   */
 	
-	    /**
-	     * Render list by order of score
-	     */
-	    value: function render() {
-	      var _this = this;
+	  TypeaheadList.prototype.render = function render() {
+	    var _this2 = this;
 	
-	      if (!this.props.value) {
-	        // Nothing to filter by yet
-	        return null;
-	      } else if (!this.props.visible.length && this.props.empty !== false) {
-	        // Can't find anything
-	        return _react2.default.createElement(
-	          'ul',
-	          { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) },
-	          _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty })
-	        );
-	      }
-	
+	    if (!this.props.value || this.props.visible instanceof Array !== true) {
+	      // Nothing to filter by yet
+	      return null;
+	    } else if (this.props.visible.length === 0 && this.props.empty !== false) {
+	      // Can't find anything
 	      return _react2.default.createElement(
 	        'ul',
 	        { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) },
-	        this.props.visible.filter(function (item) {
-	          return item && item.score && item.original;
-	        }).sort(function (a, b) {
-	          return b.score - a.score;
-	        }).map(function (option, index) {
-	          var key = _this.props.extract(option.original);
-	          return _react2.default.createElement(_TypeaheadOption2.default, {
-	            key: key,
-	            selected: _this.props.selected === index,
-	            option: option,
-	            onClick: _this.props.onSelected.bind(null, option) });
-	        })
+	        _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty })
 	      );
 	    }
-	  }]);
 	
-	  return Typeahead;
+	    return _react2.default.createElement(
+	      'ul',
+	      { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) },
+	      this.props.visible.filter(function (item) {
+	        return item && item.score && item.original;
+	      }).sort(function (a, b) {
+	        return b.score - a.score;
+	      }).map(function (option, index) {
+	        var key = _this2.props.extract(option.original);
+	        return _react2.default.createElement(_TypeaheadOption2.default, {
+	          key: key,
+	          selected: _this2.props.selected === index,
+	          option: option,
+	          onClick: _this2.props.onSelected.bind(null, option) });
+	      })
+	    );
+	  };
+	
+	  return TypeaheadList;
 	})(_react2.default.Component);
 	
 	/**
@@ -564,8 +565,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @type {Object}
 	 */
 	
-	exports.default = Typeahead;
-	Typeahead.defaultProps = {
+	exports.default = TypeaheadList;
+	TypeaheadList.defaultProps = {
 	  empty: false,
 	  visible: [],
 	  onSelected: function onSelected() {}
@@ -576,8 +577,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -597,13 +596,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	var TypeaheadOption = (function (_React$Component) {
 	  _inherits(TypeaheadOption, _React$Component);
@@ -611,37 +610,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function TypeaheadOption() {
 	    _classCallCheck(this, TypeaheadOption);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TypeaheadOption).apply(this, arguments));
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
 	  }
 	
-	  _createClass(TypeaheadOption, [{
-	    key: 'render',
+	  /**
+	   * Render
+	   * @return    {React}
+	   */
 	
-	    /**
-	     * Render
-	     * @return    {React}
-	     */
-	    value: function render() {
-	      var classes = (0, _classnames2.default)('typeahead--item', _typeahead2.default.item, _defineProperty({
-	        'typeahead--selected': this.props.selected
-	      }, _typeahead2.default.selected, this.props.selected));
+	  TypeaheadOption.prototype.render = function render() {
+	    var classes = (0, _classnames2.default)('typeahead--item', _typeahead2.default.item, _defineProperty({
+	      'typeahead--selected': this.props.selected
+	    }, _typeahead2.default.selected, this.props.selected));
 	
-	      if (this.props.empty) {
-	        return _react2.default.createElement(
-	          'li',
-	          { className: classes },
-	          typeof this.props.empty === 'string' ? this.props.empty : 'No Results...'
-	        );
-	      }
-	
-	      return _react2.default.createElement('li', {
-	        className: classes,
-	        onClick: this.props.onClick
-	        /* eslint-disable */
-	        , dangerouslySetInnerHTML: { __html: this.props.option.string }
-	        /* eslint-enable */ });
+	    if (this.props.empty) {
+	      return _react2.default.createElement(
+	        'li',
+	        { className: classes },
+	        typeof this.props.empty === 'string' ? this.props.empty : 'No Results...'
+	      );
 	    }
-	  }]);
+	
+	    return _react2.default.createElement('li', {
+	      className: classes,
+	      onClick: this.props.onClick
+	      /* eslint-disable */
+	      , dangerouslySetInnerHTML: { __html: this.props.option.string }
+	      /* eslint-enable */ });
+	  };
 	
 	  return TypeaheadOption;
 	})(_react2.default.Component);

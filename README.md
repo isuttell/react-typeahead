@@ -1,13 +1,16 @@
 # react-typeahead
 [React](http://facebook.github.io/react/) component to allow fuzzy searching of a list for a value as you type. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
 
+[![npm](https://img.shields.io/npm/v/ship-components-typeahead.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-typeahead)
+[![devDependencies](https://img.shields.io/david/dev/ship-components/ship-components-typeahead.svg?style=flat)](https://david-dm.org/ship-components/ship-components-typeahead?type=dev)
+
 ## Usage
 
 ### ES6/JSX (Recommended)
 The component is written using ES6/JSX therefore Babel is recommended to use it. The below example is based on using [webpack](http://webpack.github.io/) and [babel-loader](https://github.com/babel/babel-loader).
 ```js
 import React from 'react';
-import Typeahead from 'react-typeahead';
+import Typeahead from 'ship-components-typeahead';
 
 export default class BasicExample extends React.Component
 

@@ -19,8 +19,8 @@ module.exports = {
     'classnames': true,
     'react': 'React',
     'react-dom': true,
-    'react-textinput': true,
-    'react-outsideclick': true,
+    'ship-components-textinput': true,
+    'ship-components-outsideclick': true,
     'react-addons-css-transition-group': true
   },
 
@@ -36,6 +36,12 @@ module.exports = {
       {
         test: /\.(jsx?|es6)$/,
         exclude: /node_modules/,
+        loader: 'babel'
+      },
+      // ES6/JSX for Ship Components
+      {
+        test: /\.(jsx?|es6)$/,
+        include: /ship-components-.*\/src/,
         loader: 'babel'
       },
       // Ensure 'use strict' is everywhere
