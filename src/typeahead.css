@@ -44,6 +44,10 @@
   animation: spin linear infinite 1s;
 }
 
+.editable {
+
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0);

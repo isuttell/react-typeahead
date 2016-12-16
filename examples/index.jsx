@@ -8,16 +8,36 @@ import Typeahead from '../src/Typeahead';
 
 class Examples extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      basic: 'one'
+    }
+  }
+
+  handleChange(key, event) {
+    this.setState({
+      [key]: event.target.value
+    })
+  }
+
   getOptions() {
     return [
       {
-        label: 'One'
+        label: 'One',
+        value: 'one'
       },
       {
-        label: 'Two'
+        label: 'Two',
+        value: 'two'
       },
       {
-        label: 'Three'
+        label: 'Three',
+        value: 'three'
+      },
+      {
+        label: 'One+',
+        value: 'one+'
       }
     ]
   }
@@ -30,6 +50,8 @@ class Examples extends React.Component {
           <h2>Basic</h2>
           <Typeahead
             options={this.getOptions()}
+            value={this.state.basic}
+            onChange={this.handleChange.bind(this, 'basic')}
             extract={(item)=>item.label} />
           <code>
 {
@@ -50,6 +72,14 @@ class Examples extends React.Component {
 `
 }
           </code>
+        </div>
+        <div className='example-group'>
+          <h2>Basic (Not Editable)</h2>
+          <Typeahead
+            editable={false}
+            value={this.state.basic}
+            options={this.getOptions()}
+            extract={(item)=>item.label} />
         </div>
       </div>
     );

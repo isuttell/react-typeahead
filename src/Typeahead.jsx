@@ -21,16 +21,28 @@ class Typeahead extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       hide: true,
-      visible: this.getResults.call(this, props.defaultValue, props.options),
-      value: props.defaultValue,
+      visible: this.getResults.call(this, props.value, props.options),
+      currentValue: props.value,
       selected: 0
     };
 
     // Ensure proper context
-    const bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown', 'handleValidate'];
-    bindFn.forEach((fn)=> this[fn] = this[fn].bind(this));
+    const bindFn = [
+      'getResults',
+      'handleChange',
+      'handleSelected',
+      'keyEvent',
+      'handleKeyDown',
+      '_onEnter',
+      '_onUp',
+      '_onDown',
+      'handleValidate',
+      'handleOutsideClick'
+    ];
+    bindFn.forEach(fn => this[fn] = this[fn].bind(this));
   }
 
   /**
@@ -39,16 +51,17 @@ class Typeahead extends React.Component {
    * @param     {Object}    nextProps
    */
   componentWillReceiveProps(nextProps) {
-    let value = this.state.value;
-    if (nextProps.defaultValue !== this.props.defaultValue) {
-      value = nextProps.defaultValue;
+    let {currentValue} = this.state;
+    if (nextProps.value !== this.props.value) {
+      currentValue = nextProps.value;
     }
 
     // Get new results
-    var results = this.getResults(value, nextProps.options);
+    const visible = this.getResults(currentValue, nextProps.options);
 
     this.setState({
-      visible: results,
+      currentValue,
+      visible,
       selected: 0
     });
   }
@@ -60,15 +73,19 @@ class Typeahead extends React.Component {
    * @param     {Array<string>}    options
    * @return    {Array<object>}
    */
-  getResults(value, options) {
-    var results = fuzzy.filter(value || '', options, {
+  getResults(currentValue, options) {
+    if (typeof currentValue === 'undefined') {
+      currentValue = '';
+    }
+
+    let results = fuzzy.filter(currentValue.toString() || '', options, {
       pre: '<span class=\'' + this.props.matchedClass + '\'>',
       post: '</span>',
       extract: this.props.extract
     });
 
     // If we have an exact match, move it to the top
-    let exactIndex = results.findIndex((result) => result.original.value === value);
+    let exactIndex = results.findIndex(result => result.original.value === currentValue);
     if (exactIndex > -1) {
       let exacted = results.splice(exactIndex, 1)[0];
       results.unshift(exacted);
@@ -86,12 +103,12 @@ class Typeahead extends React.Component {
    */
   handleChange(event, callback) {
     let state = {
-      value: event.target.value,
+      currentValue: event.target.value,
       selected: 0
     };
 
     // Get new results
-    state.visible = state.value.length > 0 ? this.getResults(event.target.value, this.props.options) : [];
+    state.visible = state.currentValue.length > 0 ? this.getResults(state.currentValue, this.props.options) : [];
 
     state.hide = false;
     if (state.visible.length === 1) {
@@ -99,14 +116,14 @@ class Typeahead extends React.Component {
     }
 
     this.setState(state, () => {
-      if (this.props.onChange){
+      if (typeof this.props.onChange === 'function'){
         this.props.onChange({
           target: {
-            value: this.state.value
+            value: this.state.currentValue
           }
         });
       }
-      if(callback) {
+      if (typeof callback === 'function') {
         callback();
       }
     });
@@ -122,25 +139,27 @@ class Typeahead extends React.Component {
     if (typeof option !== 'object') {
       throw new TypeError('Option is not an object');
     }
-    if (this.state.value.length === '' || this.state.visible.length === 0) {
+    if (this.state.currentValue.length === '' || this.state.visible.length === 0) {
       return;
     }
-    let ev = {
+
+    const ev = {
       target: {
         value: option.original.value
       }
     };
 
     this.handleChange(ev, () => {
-      if (this.props.onSelected) {
+      if (typeof this.props.onSelected === 'function') {
         this.props.onSelected(option, event);
       }
 
       let state = {
         hide: true
       };
+
       if (this.props.clearOnSelect) {
-        state.value = '';
+        state.currentValue = '';
         state.selected = 0;
         state.visible = [];
       }
@@ -180,6 +199,9 @@ class Typeahead extends React.Component {
     }
   }
 
+  /**
+   * Return the active selection
+   */
   getSelected() {
     return this.state.visible[this.state.selected];
   }
@@ -188,7 +210,7 @@ class Typeahead extends React.Component {
    * Event to move the selection up the list
    */
   _onUp() {
-    var current = this.state.selected;
+    const current = this.state.selected;
     this.setState({
       selected: current > 0 ? current - 1 : 0
     });
@@ -198,8 +220,8 @@ class Typeahead extends React.Component {
    * Event to move the selection down the list
    */
   _onDown() {
-    var current = this.state.selected;
-    var max = this.state.visible.length - 1;
+    const current = this.state.selected;
+    const max = this.state.visible.length - 1;
     this.setState({
       selected: current < max ? current + 1 : max
     });
@@ -220,12 +242,12 @@ class Typeahead extends React.Component {
    */
   handleKeyDown(event) {
     this.stopHiding();
-    var handler = this.keyEvent(event.key);
+    let handler = this.keyEvent(event.key);
     if (typeof handler === 'function'){
       event.preventDefault();
       handler.call(this, event);
     }
-    if (this.props.onKeyDown) {
+    if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event);
     }
   }
@@ -241,7 +263,7 @@ class Typeahead extends React.Component {
       <div className={classes}>
         <div className='typeahead--container'>
           <div className='typeahead--input form-input'>
-            {this.props.defaultValue}
+            {this.state.currentValue}
           </div>
         </div>
       </div>
@@ -261,11 +283,13 @@ class Typeahead extends React.Component {
    * @return    {Render}
    */
   render() {
-    var classes = classNames(
+    let classes = classNames(
       'typeahead',
       this.props.className, {
-      'typeahead--editable' : this.props.editable
-    });
+        [css.editable] : this.props.editable,
+        'typeahead--editable' : this.props.editable
+      }
+    );
 
     if (!this.props.editable) {
       return this.renderEmpty(classes);
@@ -273,19 +297,19 @@ class Typeahead extends React.Component {
 
     return (
       <div className={classes}>
-        <OutsideClick className={classNames('typeahead--container', css.container)}
+        <OutsideClick
+          className={classNames('typeahead--container', css.container)}
           onClick={this.handleOutsideClick.bind(this)}
         >
           <div>
             <TextInput
               className={classNames('typeahead--input', css.input)}
-              onChange={this.handleChange.bind(this)}
-              onKeyDown={this.handleKeyDown.bind(this)}
+              onChange={this.handleChange}
+              onKeyDown={this.handleKeyDown}
               onBlur={this.props.onBlur}
               onFocus={this.props.onFocus}
-              value={this.state.value}
+              value={this.state.currentValue}
               validate={this.handleValidate}
-              defaultValue={this.props.defaultValue}
               editable
               minRows={1}
               maxRows={1}
@@ -298,7 +322,7 @@ class Typeahead extends React.Component {
           <TypeaheadList
             empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
-            value={this.state.value}
+            value={this.state.currentValue}
             extract={this.props.extract}
             visible={this.state.hide ? [] : this.state.visible}
             onSelected={this.handleSelected} />
@@ -314,7 +338,7 @@ Typeahead.defaultProps = {
   empty: false,
   options: [],
   label: '',
-  defaultValue: '',
+  value: '',
   placeholder: '',
   maxVisible: 5,
   clearOnSelect: false,

@@ -9,7 +9,6 @@
  *    https://github.com/webpack/grunt-webpack
  */
 
-var assign = require('object-assign');
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -19,7 +18,7 @@ module.exports = function(grunt) {
   /** **************************************************************************
    * Build
    */
-  var buildOptions = assign({}, require('./webpack.config'), {
+  var buildOptions = Object.assign({}, require('./webpack.config'), {
     // Clear default plugins so we can override through grunt
     plugins: []
   });
@@ -57,7 +56,7 @@ module.exports = function(grunt) {
   /** **************************************************************************
    * Development Server
    */
-  var serverOptions = assign({}, require('./webpack.config'), {
+  var serverOptions = Object.assign({}, require('./webpack.config'), {
     plugins: [],
     entry : {
       bundle: path.resolve(__dirname, '../../examples/index.jsx')
@@ -77,7 +76,7 @@ module.exports = function(grunt) {
   });
 
   // Remove Extract Plugin. Gotta clone to prevent changing above config
-  serverOptions.module = assign({}, serverOptions.module);
+  serverOptions.module = Object.assign({}, serverOptions.module);
   serverOptions.module.loaders = serverOptions.module.loaders.slice(0);
   serverOptions.module.loaders.splice(serverOptions.module.loaders.length - 1);
   serverOptions.module.loaders.push({
