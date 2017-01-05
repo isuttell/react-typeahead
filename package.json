@@ -1,12 +1,13 @@
 {
   "name": "ship-components-typeahead",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {
     "start": "grunt server",
     "build": "grunt build",
-    "test": "./node_modules/jest-cli/bin/jest.js src/ --coverage"
+    "lint": "./node_modules/eslint/bin/eslint.js src/*.jsx",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
