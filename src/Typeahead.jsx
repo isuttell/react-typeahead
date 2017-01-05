@@ -171,14 +171,15 @@ class Typeahead extends React.Component {
   /**
    * Associate a function handler depending on the keypress
    *
-   * @param     {Number}    keyCode
+   * @param     {string}    keyName
    * @return    {Function}
    */
-  keyEvent(keyCode){
-    switch(keyCode) {
+  keyEvent(keyName){
+    switch(keyName) {
       case 'Enter':
       case 'Tab':
-        return this._onEnter;
+        // if menu is hidden, do normal tab behavior
+        return this.state.hide ? void 0 : this._onEnter;
       case 'ArrowDown':
       case 'Down':
         return this._onDown;
@@ -236,23 +237,58 @@ class Typeahead extends React.Component {
   }
 
   /**
+   * Function to help ignore special key strokes
+   * @param  {String}  keyName
+   * @return {Boolean}
+   */
+  isSpecialKey(keyName) {
+    switch(keyName) {
+      case 'Alt':
+      case 'CapsLock':
+      case 'Control':
+      case 'Fn':
+      case 'Meta':
+      case 'Shift':
+      case 'Tab':
+        return true;
+
+      default:
+        return false;
+    }
+  }
+
+  /**
    * Call any associated key events
    *
    * @param     {Event}    event
    */
   handleKeyDown(event) {
-    this.stopHiding();
+    if (this.isSpecialKey(event.key)) {
+      this.stopHiding();  
+    }
+    
     let handler = this.keyEvent(event.key);
     if (typeof handler === 'function'){
       event.preventDefault();
       handler.call(this, event);
     }
+
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event);
     }
   }
 
   handleOutsideClick() {
+    this.setState({
+      hide: true
+    });
+  }
+
+  handleBlur() {
+    if (typeof this.props.onBlur === "function") {
+      this.props.onBlur.call();
+    }
+
     this.setState({
       hide: true
     });
@@ -306,7 +342,7 @@ class Typeahead extends React.Component {
               className={classNames('typeahead--input', css.input)}
               onChange={this.handleChange}
               onKeyDown={this.handleKeyDown}
-              onBlur={this.props.onBlur}
+              onBlur={this.handleBlur.bind(this)}
               onFocus={this.props.onFocus}
               value={this.state.currentValue}
               validate={this.handleValidate}
