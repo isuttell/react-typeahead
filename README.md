@@ -113,9 +113,9 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
-* 0.3 - Ignore keydown on special keys ('Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'). Tab still selects menu items.
-* 0.2 - Removed props.defaultValue, updated to React 15
-* 0.1 - Initial
+* 0.3.0 - Ignore keydown on special keys ('Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'). Tab still selects menu items.
+* 0.2.0 - Removed props.defaultValue, updated to React 15
+* 0.1.0 - Initial
 
 ## License
 The MIT License (MIT)
