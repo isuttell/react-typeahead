@@ -36,6 +36,7 @@ class Typeahead extends React.Component {
       'handleSelected',
       'keyEvent',
       'handleKeyDown',
+      'handleBlur',
       '_onEnter',
       '_onUp',
       '_onDown',
@@ -264,10 +265,10 @@ class Typeahead extends React.Component {
    */
   handleKeyDown(event) {
     if (this.isSpecialKey(event.key)) {
-      this.stopHiding();  
+      this.stopHiding();
     }
-    
-    let handler = this.keyEvent(event.key);
+
+    const handler = this.keyEvent(event.key);
     if (typeof handler === 'function'){
       event.preventDefault();
       handler.call(this, event);
@@ -284,9 +285,9 @@ class Typeahead extends React.Component {
     });
   }
 
-  handleBlur() {
-    if (typeof this.props.onBlur === "function") {
-      this.props.onBlur.call();
+  handleBlur(event) {
+    if (typeof this.props.onBlur === 'function') {
+      this.props.onBlur(event);
     }
 
     this.setState({
@@ -342,7 +343,7 @@ class Typeahead extends React.Component {
               className={classNames('typeahead--input', css.input)}
               onChange={this.handleChange}
               onKeyDown={this.handleKeyDown}
-              onBlur={this.handleBlur.bind(this)}
+              onBlur={this.handleBlur}
               onFocus={this.props.onFocus}
               value={this.state.currentValue}
               validate={this.handleValidate}
