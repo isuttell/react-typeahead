@@ -5,6 +5,29 @@ import css from './typeahead.css';
 
 export default class TypeaheadOption extends React.Component {
   /**
+   * Setup
+   */
+  constructor(props) {
+    super(props);
+
+    // Binding
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+  }
+
+  /**
+   * Option clicked. Must be on mouse down so we can intercept the focus
+   */
+  handleMouseDown(event) {
+    // Prevent the blur event from happening and let the text edit keep its focus
+    event.preventDefault();
+
+    // Call parent
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(event);
+    }
+  }
+
+  /**
    * Render
    * @return    {React}
    */
@@ -14,7 +37,7 @@ export default class TypeaheadOption extends React.Component {
       [css.selected]: this.props.selected
     });
 
-    if(this.props.empty) {
+    if (this.props.empty) {
       return (
         <li className={classes}>
           {typeof this.props.empty === 'string' ? this.props.empty : 'No Results...'}
@@ -25,10 +48,11 @@ export default class TypeaheadOption extends React.Component {
     return (
       <li
         className={classes}
-        onClick={this.props.onClick}
+        onMouseDown={this.handleMouseDown}
         /* eslint-disable */
-        dangerouslySetInnerHTML={{ __html:this.props.option.string }}
-        /* eslint-enable *//>
+        dangerouslySetInnerHTML={{ __html: this.props.option.string }}
+        /* eslint-enable */
+      />
     );
   }
 }
