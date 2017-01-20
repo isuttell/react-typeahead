@@ -47,6 +47,10 @@
           animation: typeahead--spin linear infinite 1s;
 }
 
+.typeahead--editable {
+
+}
+
 @-webkit-keyframes typeahead--spin {
   0% {
     -webkit-transform: rotate(0);

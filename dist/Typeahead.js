@@ -99,6 +99,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
 	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -119,13 +121,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _this.state = {
 	      hide: true,
-	      visible: _this.getResults.call(_this, props.defaultValue, props.options),
-	      value: props.defaultValue,
+	      visible: _this.getResults.call(_this, props.value, props.options),
+	      currentValue: props.value,
 	      selected: 0
 	    };
 	
 	    // Ensure proper context
-	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', '_onEnter', '_onUp', '_onDown', 'handleValidate'];
+	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', 'handleBlur', '_onEnter', '_onUp', '_onDown', 'handleValidate', 'handleOutsideClick'];
 	    bindFn.forEach(function (fn) {
 	      return _this[fn] = _this[fn].bind(_this);
 	    });
@@ -139,16 +141,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	
 	  Typeahead.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    var value = this.state.value;
-	    if (nextProps.defaultValue !== this.props.defaultValue) {
-	      value = nextProps.defaultValue;
+	    var currentValue = this.state.currentValue;
+	
+	    if (nextProps.value !== this.props.value) {
+	      currentValue = nextProps.value;
 	    }
 	
 	    // Get new results
-	    var results = this.getResults(value, nextProps.options);
+	    var visible = this.getResults(currentValue, nextProps.options);
 	
 	    this.setState({
-	      visible: results,
+	      currentValue: currentValue,
+	      visible: visible,
 	      selected: 0
 	    });
 	  };
@@ -161,8 +165,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @return    {Array<object>}
 	   */
 	
-	  Typeahead.prototype.getResults = function getResults(value, options) {
-	    var results = _fuzzy2.default.filter(value || '', options, {
+	  Typeahead.prototype.getResults = function getResults(currentValue, options) {
+	    if (typeof currentValue === 'undefined') {
+	      currentValue = '';
+	    }
+	
+	    var results = _fuzzy2.default.filter(currentValue.toString() || '', options, {
 	      pre: '<span class=\'' + this.props.matchedClass + '\'>',
 	      post: '</span>',
 	      extract: this.props.extract
@@ -170,7 +178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // If we have an exact match, move it to the top
 	    var exactIndex = results.findIndex(function (result) {
-	      return result.original.value === value;
+	      return result.original.value === currentValue;
 	    });
 	    if (exactIndex > -1) {
 	      var exacted = results.splice(exactIndex, 1)[0];
@@ -192,12 +200,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this2 = this;
 	
 	    var state = {
-	      value: event.target.value,
+	      currentValue: event.target.value,
 	      selected: 0
 	    };
 	
 	    // Get new results
-	    state.visible = state.value.length > 0 ? this.getResults(event.target.value, this.props.options) : [];
+	    state.visible = state.currentValue.length > 0 ? this.getResults(state.currentValue, this.props.options) : [];
 	
 	    state.hide = false;
 	    if (state.visible.length === 1) {
@@ -205,14 +213,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    this.setState(state, function () {
-	      if (_this2.props.onChange) {
+	      if (typeof _this2.props.onChange === 'function') {
 	        _this2.props.onChange({
 	          target: {
-	            value: _this2.state.value
+	            value: _this2.state.currentValue
 	          }
 	        });
 	      }
-	      if (callback) {
+	      if (typeof callback === 'function') {
 	        callback();
 	      }
 	    });
@@ -231,9 +239,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) !== 'object') {
 	      throw new TypeError('Option is not an object');
 	    }
-	    if (this.state.value.length === '' || this.state.visible.length === 0) {
+	    if (this.state.currentValue.length === '' || this.state.visible.length === 0) {
 	      return;
 	    }
+	
 	    var ev = {
 	      target: {
 	        value: option.original.value
@@ -241,15 +250,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    this.handleChange(ev, function () {
-	      if (_this3.props.onSelected) {
+	      if (typeof _this3.props.onSelected === 'function') {
 	        _this3.props.onSelected(option, event);
 	      }
 	
 	      var state = {
 	        hide: true
 	      };
+	
 	      if (_this3.props.clearOnSelect) {
-	        state.value = '';
+	        state.currentValue = '';
 	        state.selected = 0;
 	        state.visible = [];
 	      }
@@ -260,15 +270,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Associate a function handler depending on the keypress
 	   *
-	   * @param     {Number}    keyCode
+	   * @param     {string}    keyName
 	   * @return    {Function}
 	   */
 	
-	  Typeahead.prototype.keyEvent = function keyEvent(keyCode) {
-	    switch (keyCode) {
+	  Typeahead.prototype.keyEvent = function keyEvent(keyName) {
+	    switch (keyName) {
 	      case 'Enter':
-	      case 'Tab':
-	        return this._onEnter;
+	        // if menu is hidden, do normal tab behavior
+	        return this.state.hide ? void 0 : this._onEnter;
 	      case 'ArrowDown':
 	      case 'Down':
 	        return this._onDown;
@@ -289,6 +299,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.handleSelected(this.getSelected(), event);
 	    }
 	  };
+	
+	  /**
+	   * Return the active selection
+	   */
 	
 	  Typeahead.prototype.getSelected = function getSelected() {
 	    return this.state.visible[this.state.selected];
@@ -326,24 +340,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  /**
+	   * Function to help ignore special key strokes
+	   * @param  {String}  keyName
+	   * @return {Boolean}
+	   */
+	
+	  Typeahead.prototype.isSpecialKey = function isSpecialKey(keyName) {
+	    return ['Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'].includes(keyName);
+	  };
+	
+	  /**
 	   * Call any associated key events
 	   *
 	   * @param     {Event}    event
 	   */
 	
 	  Typeahead.prototype.handleKeyDown = function handleKeyDown(event) {
-	    this.stopHiding();
+	    if (this.isSpecialKey(event.key)) {
+	      this.stopHiding();
+	    }
+	
 	    var handler = this.keyEvent(event.key);
 	    if (typeof handler === 'function') {
 	      event.preventDefault();
 	      handler.call(this, event);
 	    }
-	    if (this.props.onKeyDown) {
+	
+	    if (typeof this.props.onKeyDown === 'function') {
 	      this.props.onKeyDown(event);
 	    }
 	  };
 	
 	  Typeahead.prototype.handleOutsideClick = function handleOutsideClick() {
+	    this.setState({
+	      hide: true
+	    });
+	  };
+	
+	  Typeahead.prototype.handleBlur = function handleBlur(event) {
+	    if (typeof this.props.onBlur === 'function') {
+	      this.props.onBlur(event);
+	    }
+	
 	    this.setState({
 	      hide: true
 	    });
@@ -359,7 +397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'typeahead--input form-input' },
-	          this.props.defaultValue
+	          this.state.currentValue
 	        )
 	      )
 	    );
@@ -379,9 +417,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	
 	  Typeahead.prototype.render = function render() {
-	    var classes = (0, _classnames2.default)('typeahead', this.props.className, {
-	      'typeahead--editable': this.props.editable
-	    });
+	    var _classNames;
+	
+	    var classes = (0, _classnames2.default)('typeahead', this.props.className, (_classNames = {}, _defineProperty(_classNames, _typeahead2.default.editable, this.props.editable), _defineProperty(_classNames, 'typeahead--editable', this.props.editable), _classNames));
 	
 	    if (!this.props.editable) {
 	      return this.renderEmpty(classes);
@@ -392,7 +430,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      { className: classes },
 	      _react2.default.createElement(
 	        _shipComponentsOutsideclick2.default,
-	        { className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
+	        {
+	          className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
 	          onClick: this.handleOutsideClick.bind(this)
 	        },
 	        _react2.default.createElement(
@@ -400,13 +439,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	          null,
 	          _react2.default.createElement(_shipComponentsTextinput2.default, {
 	            className: (0, _classnames2.default)('typeahead--input', _typeahead2.default.input),
-	            onChange: this.handleChange.bind(this),
-	            onKeyDown: this.handleKeyDown.bind(this),
-	            onBlur: this.props.onBlur,
+	            onChange: this.handleChange,
+	            onKeyDown: this.handleKeyDown,
+	            onBlur: this.handleBlur,
 	            onFocus: this.props.onFocus,
-	            value: this.state.value,
+	            value: this.state.currentValue,
 	            validate: this.handleValidate,
-	            defaultValue: this.props.defaultValue,
 	            editable: true,
 	            minRows: 1,
 	            maxRows: 1,
@@ -417,7 +455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2.default.createElement(_TypeaheadList2.default, {
 	          empty: this.state.hide || this.props.isLoading ? void 0 : this.props.empty,
 	          selected: this.state.selected,
-	          value: this.state.value,
+	          value: this.state.currentValue,
 	          extract: this.props.extract,
 	          visible: this.state.hide ? [] : this.state.visible,
 	          onSelected: this.handleSelected })
@@ -434,7 +472,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  empty: false,
 	  options: [],
 	  label: '',
-	  defaultValue: '',
+	  value: '',
 	  placeholder: '',
 	  maxVisible: 5,
 	  clearOnSelect: false,
@@ -451,7 +489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","selected":"typeahead--selected","found":"typeahead--found","loading":"typeahead--loading","spin":"typeahead--spin"};
+	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","selected":"typeahead--selected","found":"typeahead--found","loading":"typeahead--loading","spin":"typeahead--spin","editable":"typeahead--editable"};
 
 /***/ },
 /* 2 */
@@ -607,11 +645,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TypeaheadOption = (function (_React$Component) {
 	  _inherits(TypeaheadOption, _React$Component);
 	
-	  function TypeaheadOption() {
+	  /**
+	   * Setup
+	   */
+	
+	  function TypeaheadOption(props) {
 	    _classCallCheck(this, TypeaheadOption);
 	
-	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	    // Binding
+	
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	
+	    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
+	    return _this;
 	  }
+	
+	  /**
+	   * Option clicked. Must be on mouse down so we can intercept the focus
+	   */
+	
+	  TypeaheadOption.prototype.handleMouseDown = function handleMouseDown(event) {
+	    // Prevent the blur event from happening and let the text edit keep its focus
+	    event.preventDefault();
+	
+	    // Call parent
+	    if (typeof this.props.onClick === 'function') {
+	      this.props.onClick(event);
+	    }
+	  };
 	
 	  /**
 	   * Render
@@ -633,10 +694,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return _react2.default.createElement('li', {
 	      className: classes,
-	      onClick: this.props.onClick
+	      onMouseDown: this.handleMouseDown
 	      /* eslint-disable */
 	      , dangerouslySetInnerHTML: { __html: this.props.option.string }
-	      /* eslint-enable */ });
+	      /* eslint-enable */
+	    });
 	  };
 	
 	  return TypeaheadOption;

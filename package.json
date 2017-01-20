@@ -1,6 +1,6 @@
 {
   "name": "ship-components-typeahead",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {

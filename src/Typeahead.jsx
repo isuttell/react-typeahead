@@ -178,7 +178,6 @@ class Typeahead extends React.Component {
   keyEvent(keyName){
     switch(keyName) {
       case 'Enter':
-      case 'Tab':
         // if menu is hidden, do normal tab behavior
         return this.state.hide ? void 0 : this._onEnter;
       case 'ArrowDown':
@@ -243,19 +242,7 @@ class Typeahead extends React.Component {
    * @return {Boolean}
    */
   isSpecialKey(keyName) {
-    switch(keyName) {
-      case 'Alt':
-      case 'CapsLock':
-      case 'Control':
-      case 'Fn':
-      case 'Meta':
-      case 'Shift':
-      case 'Tab':
-        return true;
-
-      default:
-        return false;
-    }
+    return ['Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'].includes(keyName);
   }
 
   /**
