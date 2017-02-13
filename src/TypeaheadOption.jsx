@@ -57,6 +57,14 @@ export default class TypeaheadOption extends React.Component {
   }
 }
 
+// Type checking
+const {bool, object} = React.PropTypes;
+TypeaheadOption.propTypes = {
+  selected: bool,
+  empty: bool,
+  option: object
+}
+
 TypeaheadOption.defaultProps = {
   empty: false,
   option: {

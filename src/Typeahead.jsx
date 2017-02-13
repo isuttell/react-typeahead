@@ -356,6 +356,23 @@ class Typeahead extends React.Component {
   }
 }
 
+// Type checking
+const {number, string, array, bool, func} = React.PropTypes;
+Typeahead.propTypes = {
+  maxVisible:     number,
+  matchedClass:   string,
+  placeholder:    string,
+  value:          string,
+  label:          string,
+  options:        array,
+  clearOnSelect:  bool,
+  editable:       bool,
+  empty:          bool,
+  isLoading:      bool,
+  extract:        func,
+  onChange:       func
+}
+
 Typeahead.defaultProps = {
   isLoading: false,
   editable: true,
