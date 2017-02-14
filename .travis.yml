@@ -3,5 +3,5 @@ node_js:
   - "5"
   - "4"
   - "node"
-before_install: npm install grunt
+before_install: npm install -g grunt-cli
 after_script: npm run coverage
