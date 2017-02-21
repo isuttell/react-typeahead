@@ -2,6 +2,8 @@
 [React](http://facebook.github.io/react/) component to allow fuzzy searching of a list for a value as you type. Exports a commonjs module that can be used with [webpack](http://webpack.github.io/). Source is in ES6 and is compiled down to ES5 using [Babel](https://babeljs.io/).
 
 [![npm](https://img.shields.io/npm/v/ship-components-typeahead.svg?maxAge=2592000)](https://www.npmjs.com/package/ship-components-typeahead)
+[![Build Status](http://img.shields.io/travis/ship-components/ship-components-dialog/master.svg?style=flat)](https://travis-ci.org/ship-components/ship-components-typeahead)
+[![Coverage](http://img.shields.io/coveralls/ship-components/ship-components-dialog.svg?style=flat)](https://coveralls.io/github/ship-components/ship-components-typeahead)
 [![dependencies](https://img.shields.io/david/ship-components/ship-components-typeahead.svg?style=flat)](https://david-dm.org/ship-components/ship-components-typeahead)
 [![devDependencies](https://img.shields.io/david/dev/ship-components/ship-components-typeahead.svg?style=flat)](https://david-dm.org/ship-components/ship-components-typeahead?type=dev)
 
@@ -38,6 +40,8 @@ export default class BasicExample extends React.Component
 ```
 
 ## Examples and Development
+[![Typeahead-Demo.gif](https://s7.postimg.org/4z5nhx7qz/Typeahead_Demo.gif)](https://postimg.org/image/vwzkjnsdz/)
+
 More examples can be found in the `examples/` folder. A development server can be run with:
 
 ```shell
@@ -113,6 +117,7 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
+* 0.4.0 - Upgrades component to be consistent with React 15 version.
 * 0.3.2 - Fixed a bug where tab was selecting when it shouldn't be
 * 0.3.1 - Fixed issue with blur being called before it should be
 * 0.3.0 - Ignore keydown on special keys ('Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'). Tab still selects menu items.
