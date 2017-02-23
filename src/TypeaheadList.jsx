@@ -33,8 +33,8 @@ export default class TypeaheadList extends React.Component {
    * Try to keep the selected comp in view
    */
   componentDidUpdate(prevProps) {
-    // when showing drop down, update the positioning styles
-    if (this.props.scrollingParentClass && prevProps.visible.length === 0 && this.props.visible.length > 0) {
+    // if drop down became active, update the positioning styles
+    if (this.props.scrollingParentClass && prevProps.hidden && !this.props.hidden && this.props.visible.length > 0) {
       // component must be visible use the DOM
       if (!this.scrollParent) {
         this.registerScrollParent(this.props.scrollingParentClass)
@@ -43,6 +43,9 @@ export default class TypeaheadList extends React.Component {
     }
   }
 
+  /**
+   * remove scroll listener if its there
+   */
   componentWillUnmount() {
     if (this.scrollParent) {
       this.scrollParent.removeEventListener('scroll', this.props.onScrollingParentScroll);

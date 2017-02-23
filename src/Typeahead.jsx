@@ -270,7 +270,7 @@ class Typeahead extends React.Component {
    * @param     {Event}    event
    */
   handleKeyDown(event) {
-    if (this.isSpecialKey(event.key)) {
+    if (!this.isSpecialKey(event.key)) {
       this.stopHiding();
     }
 
@@ -374,6 +374,7 @@ class Typeahead extends React.Component {
           <TypeaheadList
             scrollingParentClass={this.props.scrollParentClass}
             onScrollingParentScroll={this.hide}
+            hidden={this.state.hide}
             empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.currentValue}
