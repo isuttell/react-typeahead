@@ -34,7 +34,7 @@ class Typeahead extends React.Component {
       'getResults',
       'handleChange',
       'handleSelected',
-      'hide',
+      'handleHide',
       'keyEvent',
       'handleKeyDown',
       'handleBlur',
