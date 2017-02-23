@@ -142,6 +142,17 @@ export default class TypeaheadList extends React.Component {
   }
 }
 
+// Type checking
+const {number, string, array, bool, func} = React.PropTypes;
+TypeaheadList.propTypes = {
+  selected:     number,
+  value:        string,
+  visible:      array,
+  empty:        bool,
+  extract:      func,
+  onSelected:   func
+}
+
 /**
  * Defaults
  * @static

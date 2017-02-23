@@ -338,6 +338,17 @@ class Typeahead extends React.Component {
       return this.renderEmpty(classes);
     }
 
+    // Type checking to prevent React 15 warning
+    let customProps = null;
+    if(this.refs.textInput && typeof this.refs.textInput === 'object') {
+      customProps = {
+        editable: true,
+        validate: this.handleValidate,
+        minRows: 1,
+        maxRows: 1
+      };
+    }
+
     return (
       <div className={classes}>
         <OutsideClick
@@ -346,17 +357,15 @@ class Typeahead extends React.Component {
         >
           <div>
             <TextInput
+              ref='textInput'
               className={classNames('typeahead--input', css.input)}
               onChange={this.handleChange}
               onKeyDown={this.handleKeyDown}
               onBlur={this.handleBlur}
               onFocus={this.props.onFocus}
               value={this.state.currentValue}
-              validate={this.handleValidate}
-              editable
-              minRows={1}
-              maxRows={1}
               label={this.props.placeholder}
+              {...customProps}
             />
             {this.props.isLoading ?
               <span className={classNames('icon-refresh', css.loading)}/>
@@ -376,6 +385,23 @@ class Typeahead extends React.Component {
       </div>
     );
   }
+}
+
+// Type checking
+const {number, string, array, bool, func} = React.PropTypes;
+Typeahead.propTypes = {
+  maxVisible:     number,
+  matchedClass:   string,
+  placeholder:    string,
+  value:          string,
+  label:          string,
+  options:        array,
+  clearOnSelect:  bool,
+  editable:       bool,
+  empty:          bool,
+  isLoading:      bool,
+  extract:        func,
+  onChange:       func
 }
 
 Typeahead.defaultProps = {
