@@ -43,6 +43,12 @@ export default class TypeaheadList extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.scrollParent) {
+      this.scrollParent.removeEventListener('scroll', this.props.onScrollingParentScroll);
+    }
+  }
+
   /**
    * Store a reference to Typeahead's scrolling ancestor node
    * @param  {string} parentClass  the unique className of the scrolling ancestor node

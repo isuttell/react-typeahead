@@ -48,14 +48,11 @@ class Typeahead extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.hide);
+    if (this.props.scrollParentClass) {
+      window.addEventListener('resize', this.hide);
+    }
   }
 
-  hide() {
-    this.setState({
-      hide: true
-    });
-  }
   /**
    * Update selection if options change
    *
@@ -74,6 +71,18 @@ class Typeahead extends React.Component {
       currentValue,
       visible,
       selected: 0
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.props.scrollParentClass) {
+      window.removeEventListener('resize', this.hide)
+    }
+  }
+
+  hide() {
+    this.setState({
+      hide: true
     });
   }
 
