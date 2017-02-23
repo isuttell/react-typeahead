@@ -100,6 +100,6 @@
   },
   "dependencies": {
     "ship-components-outsideclick": "^0.1.1",
-    "ship-components-textinput": "^0.1.4"
+    "ship-components-textinput": "^0.2.0"
   }
 }
