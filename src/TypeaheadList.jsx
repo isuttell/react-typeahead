@@ -77,8 +77,8 @@ export default class TypeaheadList extends React.Component {
    */
   getDropdownStyle() {
     if (!this.scrollParent) {
-      if (process.env.NODE_ENV !== "production") {
-        console.warn("<Typeahead /> must have scrollParent to use getDropdownStyle()")
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('<Typeahead /> must have scrollParent to use getDropdownStyle()')
       }
       return;
     }
@@ -111,9 +111,7 @@ export default class TypeaheadList extends React.Component {
     } else if (this.props.visible.length === 0 && this.props.empty !== false) {
       // Can't find anything
       return (
-        <ul 
-          className={classNames('typeahead--list', css.list)}
-        >
+        <ul className={classNames('typeahead--list', css.list)}>
           <TypeaheadOption empty={this.props.empty} />
         </ul>
       );
@@ -123,7 +121,7 @@ export default class TypeaheadList extends React.Component {
 
     return (
         <ul
-          ref="list"
+          ref='list'
           style={listStyle}
           className={classNames('typeahead--list', css.list)}
         >

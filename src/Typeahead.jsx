@@ -49,7 +49,7 @@ class Typeahead extends React.Component {
 
   componentDidMount() {
     if (this.props.scrollParentClass) {
-      window.addEventListener('resize', this.hide);
+      window.addEventListener('resize', this.handleHide);
     }
   }
 
@@ -76,11 +76,11 @@ class Typeahead extends React.Component {
 
   componentWillUnmount() {
     if (this.props.scrollParentClass) {
-      window.removeEventListener('resize', this.hide)
+      window.removeEventListener('resize', this.handleHide)
     }
   }
 
-  hide() {
+  handleHide() {
     this.setState({
       hide: true
     });
@@ -374,14 +374,14 @@ class Typeahead extends React.Component {
           </div>
           <TypeaheadList
             scrollingParentClass={this.props.scrollParentClass}
-            onScrollingParentScroll={this.hide}
+            onScrollingParentScroll={this.handleHide}
             hidden={this.state.hide}
             empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.currentValue}
             extract={this.props.extract}
             visible={this.state.hide ? [] : this.state.visible}
-            onSelected={this.handleSelected} 
+            onSelected={this.handleSelected}
           />
         </OutsideClick>
       </div>
