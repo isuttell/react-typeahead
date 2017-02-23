@@ -34,6 +34,7 @@ class Typeahead extends React.Component {
       'getResults',
       'handleChange',
       'handleSelected',
+      'hide',
       'keyEvent',
       'handleKeyDown',
       'handleBlur',
@@ -46,6 +47,15 @@ class Typeahead extends React.Component {
     bindFn.forEach(fn => this[fn] = this[fn].bind(this));
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.hide);
+  }
+
+  hide() {
+    this.setState({
+      hide: true
+    });
+  }
   /**
    * Update selection if options change
    *
@@ -178,7 +188,6 @@ class Typeahead extends React.Component {
   keyEvent(keyName){
     switch(keyName) {
       case 'Enter':
-      case 'Tab':
         // if menu is hidden, do normal tab behavior
         return this.state.hide ? void 0 : this._onEnter;
       case 'ArrowDown':
@@ -243,19 +252,7 @@ class Typeahead extends React.Component {
    * @return {Boolean}
    */
   isSpecialKey(keyName) {
-    switch(keyName) {
-      case 'Alt':
-      case 'CapsLock':
-      case 'Control':
-      case 'Fn':
-      case 'Meta':
-      case 'Shift':
-      case 'Tab':
-        return true;
-
-      default:
-        return false;
-    }
+    return ['Alt', 'CapsLock', 'Control', 'Fn', 'Meta', 'Shift', 'Tab'].includes(keyName);
   }
 
   /**
@@ -357,12 +354,15 @@ class Typeahead extends React.Component {
             : null}
           </div>
           <TypeaheadList
+            scrollingParentClass={this.props.scrollParentClass}
+            onScrollingParentScroll={this.hide}
             empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.currentValue}
             extract={this.props.extract}
             visible={this.state.hide ? [] : this.state.visible}
-            onSelected={this.handleSelected} />
+            onSelected={this.handleSelected} 
+          />
         </OutsideClick>
       </div>
     );
