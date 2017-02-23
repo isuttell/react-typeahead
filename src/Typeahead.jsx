@@ -365,6 +365,7 @@ class Typeahead extends React.Component {
               onFocus={this.props.onFocus}
               value={this.state.currentValue}
               label={this.props.placeholder}
+              error={this.props.error}
               {...customProps}
             />
             {this.props.isLoading ?

@@ -117,7 +117,7 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
-* 0.5.0 - Add support for 'hangover' dropdowns when Typeahead is inside an overflow:hidden container.
+* 0.5.0 - Add support for 'hangover' dropdowns when Typeahead is inside an overflow:hidden container. Added support for error message in ship-components-textinput 0.2.0.
 * 0.4.0 - Upgrades component to be consistent with React 15 version.
 * 0.3.2 - Fixed a bug where tab was selecting when it shouldn't be
 * 0.3.1 - Fixed issue with blur being called before it should be
