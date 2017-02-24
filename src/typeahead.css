@@ -15,6 +15,11 @@
   box-shadow: 0 3px 8px color(#000 a(0.24));
 }
 
+.list.hidden {
+  height: 0;
+  overflow: hidden;
+}
+
 .item {
   padding: 12px 24px;
   white-space: pre-wrap;

@@ -33,13 +33,9 @@ export default class TypeaheadList extends React.Component {
    * Try to keep the selected comp in view
    */
   componentDidUpdate(prevProps) {
-    // if drop down became active, update the positioning styles
-    if (this.props.scrollingParentClass && prevProps.hidden && !this.props.hidden && this.props.visible.length > 0) {
-      // component must be visible use the DOM
-      if (!this.scrollParent) {
-        this.registerScrollParent(this.props.scrollingParentClass)
-      }
-      this.setState(this.getDropdownStyle());
+    // if drop down with scrolling parent became active, update the positioning styles
+    if (this.shouldCalculateDropdownStyle(prevProps)) {
+      this.setState(this.fixedDropdownStyle());
     }
   }
 
@@ -52,21 +48,26 @@ export default class TypeaheadList extends React.Component {
     }
   }
 
+  shouldCalculateDropdownStyle(prevProps) {
+    return this.props.scrollingParentClass && this.props.visible.length > 0 &&
+      ((prevProps.hidden && !this.props.hidden) || (this.props.visible.length !== prevProps.visible.length));
+  }
+
   /**
    * Store a reference to Typeahead's scrolling ancestor node
    * @param  {string} parentClass  the unique className of the scrolling ancestor node
    */
   registerScrollParent(parentClass) {
-    let list = ReactDOM.findDOMNode(this.refs.list);
+    let list = ReactDOM.findDOMNode(this);
     if (!list) {
-      return;
+      return void 0;
     }
     let ancestor = list.parentNode;
     while (ancestor && ancestor !== document) {
       if (ancestor.classList.contains(parentClass)) {
         ancestor.addEventListener('scroll', this.props.onScrollingParentScroll);
         this.scrollParent = ancestor;
-        return;
+        return ancestor;
       }
       ancestor = ancestor.parentNode;
     }
@@ -75,14 +76,14 @@ export default class TypeaheadList extends React.Component {
   /**
    * Calculate where to place the dropdown when dropdown must have position:fixed
    */
-  getDropdownStyle() {
-    if (!this.scrollParent) {
+  fixedDropdownStyle() {
+    if (!this.scrollParent && !this.registerScrollParent(this.props.scrollingParentClass)) {
       if (process.env.NODE_ENV !== 'production') {
-        console.error('<Typeahead /> must have scrollParent to use getDropdownStyle()')
+        console.error('<Typeahead /> could not get scrollParent for fixedDropdownStyle()')
       }
       return;
     }
-    let parent = ReactDOM.findDOMNode(this.refs.list).parentNode;
+    let parent = ReactDOM.findDOMNode(this).parentNode;
     let source = parent;
     let offsetTop = 0;
     let scrollParentTop = this.scrollParent.scrollTop;
@@ -102,28 +103,37 @@ export default class TypeaheadList extends React.Component {
   }
 
   /**
+   * Calculate where to place the dropdown when dropdown must have position:fixed
+   */
+  getDropdownStyle() {
+    return this.props.scrollingParentClass && this.props.visible.length > 0 ? this.state.fixedDropdownStyle : {};
+  }
+
+  hasOptions() {
+    return this.props.value && this.props.visible instanceof Array && this.props.visible.length > 0;
+  }
+
+  /**
    * Render list by order of score
    */
   render() {
-    if (!this.props.value || this.props.visible instanceof Array !== true){
-      // Nothing to filter by yet
-      return null;
-    } else if (this.props.visible.length === 0 && this.props.empty !== false) {
+   if (this.props.visible.length === 0 && this.props.empty !== false) {
       // Can't find anything
       return (
-        <ul className={classNames('typeahead--list', css.list)}>
+        <ul
+          className={css.list}
+        >
           <TypeaheadOption empty={this.props.empty} />
         </ul>
       );
     }
 
-    let listStyle = this.props.scrollingParentClass && this.props.visible.length > 0 ? this.state.fixedDropdownStyle : {};
-
+    let listClass = this.hasOptions() ? css.list : classNames(css.list, css.hidden)
+    let listStyle = this.getDropdownStyle();
     return (
         <ul
-          ref='list'
           style={listStyle}
-          className={classNames('typeahead--list', css.list)}
+          className={classNames('typeahead--list', listClass)}
         >
           {this.props.visible
             .filter((item) => item && item.score && item.original)

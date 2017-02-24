@@ -41,11 +41,11 @@ describe('TypeaheadList', function(){
     expect(comp).toBeDefined();
   });
 
-  it('should have an <TypeaheadOption/> component', function() {
+  it('should have a node with class "typeahead--list"', function() {
     let value = 'one';
     let typeaheadList = TestUtils.renderIntoDocument( <TypeaheadList value={value}/> );
-    let typeaheadOption = TestUtils.scryRenderedDOMComponentsWithClass(typeaheadList, 'typeahead--list');
+    let nodeWithTheRightClass = TestUtils.scryRenderedDOMComponentsWithClass(typeaheadList, 'typeahead--list');
 
-    expect(typeaheadOption.length).toEqual(1);
+    expect(nodeWithTheRightClass.length).toEqual(1);
   });
 });

@@ -123,7 +123,7 @@ class Typeahead extends React.Component {
    */
   handleChange(event, callback) {
     let state = {
-      currentValue: event.target.value,
+      currentValue: event.target.value || '',
       selected: 0
     };
 
