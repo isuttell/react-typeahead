@@ -60,7 +60,7 @@ export default class TypeaheadList extends React.Component {
   registerScrollParent(parentClass) {
     let list = ReactDOM.findDOMNode(this);
     if (!list) {
-      return {};
+      return void 0;
     }
     let ancestor = list.parentNode;
     while (ancestor && ancestor !== document) {
