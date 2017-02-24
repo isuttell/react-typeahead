@@ -133,7 +133,7 @@ export default class TypeaheadList extends React.Component {
     return (
         <ul
           style={listStyle}
-          className={listClass}
+          className={classNames('typeahead--list', listClass)}
         >
           {this.props.visible
             .filter((item) => item && item.score && item.original)
