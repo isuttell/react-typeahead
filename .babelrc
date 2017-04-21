@@ -1,5 +1,8 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": ["react", ["env", {
+      "include": ["transform-es2015-classes"]
+    }]
+  ],
   "plugins": [
     ["transform-es2015-classes", {
       "loose": true

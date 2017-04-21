@@ -1,11 +1,11 @@
 {
   "name": "ship-components-typeahead",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {
     "start": "grunt server",
-    "build": "grunt build",
+    "build": "npm run test && grunt build",
     "lint": "./node_modules/eslint/bin/eslint.js src/*.jsx",
     "test": "grunt lint && ./node_modules/jest-cli/bin/jest.js --coverage",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v"
@@ -44,7 +44,7 @@
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-es2015-classes": "^6.22.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.22.0",
     "classnames": ">=2.0.0",
     "coveralls": "^2.11.16",

@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 	
 	/** ****************************************************************************
 	 * Typeahead
@@ -64,10 +64,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	 ******************************************************************************/
 	
 	// Modules
-	;
+	
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
+	
+	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	} : function (obj) {
+	  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	};
 	
 	var _react = __webpack_require__(2);
 	
@@ -97,21 +115,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeahead2 = _interopRequireDefault(_typeahead);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
 	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+	  } else {
+	    obj[key] = value;
+	  }return obj;
+	}
 	
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
+	}
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 	
 	// Components
 	
-	var Typeahead = (function (_React$Component) {
+	
+	var Typeahead = function (_React$Component) {
 	  _inherits(Typeahead, _React$Component);
 	
 	  function Typeahead(props) {
@@ -388,19 +425,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  Typeahead.prototype.renderEmpty = function renderEmpty(classes) {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: classes },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'typeahead--container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'typeahead--input form-input' },
-	          this.state.currentValue
-	        )
-	      )
-	    );
+	    return _react2.default.createElement('div', { className: classes }, _react2.default.createElement('div', { className: 'typeahead--container' }, _react2.default.createElement('div', { className: 'typeahead--input form-input' }, this.state.currentValue)));
 	  };
 	
 	  Typeahead.prototype.handleValidate = function handleValidate(value) {
@@ -425,46 +450,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.renderEmpty(classes);
 	    }
 	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: classes },
-	      _react2.default.createElement(
-	        _shipComponentsOutsideclick2.default,
-	        {
-	          className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
-	          onClick: this.handleOutsideClick.bind(this)
-	        },
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_shipComponentsTextinput2.default, {
-	            className: (0, _classnames2.default)('typeahead--input', _typeahead2.default.input),
-	            onChange: this.handleChange,
-	            onKeyDown: this.handleKeyDown,
-	            onBlur: this.handleBlur,
-	            onFocus: this.props.onFocus,
-	            value: this.state.currentValue,
-	            validate: this.handleValidate,
-	            editable: true,
-	            minRows: 1,
-	            maxRows: 1,
-	            label: this.props.placeholder
-	          }),
-	          this.props.isLoading ? _react2.default.createElement('span', { className: (0, _classnames2.default)('icon-refresh', _typeahead2.default.loading) }) : null
-	        ),
-	        _react2.default.createElement(_TypeaheadList2.default, {
-	          empty: this.state.hide || this.props.isLoading ? void 0 : this.props.empty,
-	          selected: this.state.selected,
-	          value: this.state.currentValue,
-	          extract: this.props.extract,
-	          visible: this.state.hide ? [] : this.state.visible,
-	          onSelected: this.handleSelected })
-	      )
-	    );
+	    // Type checking to prevent React 15 warning
+	    var customProps = null;
+	    if (this.refs.textInput && _typeof(this.refs.textInput) === 'object') {
+	      customProps = {
+	        editable: true,
+	        validate: this.handleValidate,
+	        minRows: 1,
+	        maxRows: 1
+	      };
+	    }
+	
+	    return _react2.default.createElement('div', { className: classes }, _react2.default.createElement(_shipComponentsOutsideclick2.default, {
+	      className: (0, _classnames2.default)('typeahead--container', _typeahead2.default.container),
+	      onClick: this.handleOutsideClick.bind(this)
+	    }, _react2.default.createElement('div', null, _react2.default.createElement(_shipComponentsTextinput2.default, _extends({
+	      ref: 'textInput',
+	      className: (0, _classnames2.default)('typeahead--input', _typeahead2.default.input),
+	      onChange: this.handleChange,
+	      onKeyDown: this.handleKeyDown,
+	      onBlur: this.handleBlur,
+	      onFocus: this.props.onFocus,
+	      value: this.state.currentValue,
+	      label: this.props.placeholder
+	    }, customProps)), this.props.isLoading ? _react2.default.createElement('span', { className: (0, _classnames2.default)('icon-refresh', _typeahead2.default.loading) }) : null), _react2.default.createElement(_TypeaheadList2.default, {
+	      empty: this.state.hide || this.props.isLoading ? void 0 : this.props.empty,
+	      selected: this.state.selected,
+	      value: this.state.currentValue,
+	      extract: this.props.extract,
+	      visible: this.state.hide ? [] : this.state.visible,
+	      onSelected: this.handleSelected })));
 	  };
 	
 	  return Typeahead;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
+	
+	// Type checking
+	
+	
+	var _React$PropTypes = _react2.default.PropTypes,
+	    number = _React$PropTypes.number,
+	    string = _React$PropTypes.string,
+	    array = _React$PropTypes.array,
+	    bool = _React$PropTypes.bool,
+	    func = _React$PropTypes.func;
+	
+	Typeahead.propTypes = {
+	  maxVisible: number,
+	  matchedClass: string,
+	  placeholder: string,
+	  value: string,
+	  label: string,
+	  options: array,
+	  clearOnSelect: bool,
+	  editable: bool,
+	  empty: bool,
+	  isLoading: bool,
+	  extract: func,
+	  onChange: func
+	};
 	
 	Typeahead.defaultProps = {
 	  isLoading: false,
@@ -507,7 +551,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 	
 	/** ****************************************************************************
 	 * Typeahead List
@@ -517,7 +561,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 ******************************************************************************/
 	
 	// Modules
-	;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -538,17 +584,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeahead2 = _interopRequireDefault(_typeahead);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 	
 	// Components
 	
-	var TypeaheadList = (function (_React$Component) {
+	
+	var TypeaheadList = function (_React$Component) {
 	  _inherits(TypeaheadList, _React$Component);
 	
 	  function TypeaheadList() {
@@ -560,7 +621,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Render list by order of score
 	   */
-	
 	  TypeaheadList.prototype.render = function render() {
 	    var _this2 = this;
 	
@@ -569,41 +629,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return null;
 	    } else if (this.props.visible.length === 0 && this.props.empty !== false) {
 	      // Can't find anything
-	      return _react2.default.createElement(
-	        'ul',
-	        { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) },
-	        _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty })
-	      );
+	      return _react2.default.createElement('ul', { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) }, _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty }));
 	    }
 	
-	    return _react2.default.createElement(
-	      'ul',
-	      { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) },
-	      this.props.visible.filter(function (item) {
-	        return item && item.score && item.original;
-	      }).sort(function (a, b) {
-	        return b.score - a.score;
-	      }).map(function (option, index) {
-	        var key = _this2.props.extract(option.original);
-	        return _react2.default.createElement(_TypeaheadOption2.default, {
-	          key: key,
-	          selected: _this2.props.selected === index,
-	          option: option,
-	          onClick: _this2.props.onSelected.bind(null, option) });
-	      })
-	    );
+	    return _react2.default.createElement('ul', { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) }, this.props.visible.filter(function (item) {
+	      return item && item.score && item.original;
+	    }).sort(function (a, b) {
+	      return b.score - a.score;
+	    }).map(function (option, index) {
+	      var key = _this2.props.extract(option.original);
+	      return _react2.default.createElement(_TypeaheadOption2.default, {
+	        key: key,
+	        selected: _this2.props.selected === index,
+	        option: option,
+	        onClick: _this2.props.onSelected.bind(null, option) });
+	    }));
 	  };
 	
 	  return TypeaheadList;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
+	
+	// Type checking
+	
+	
+	exports.default = TypeaheadList;
+	var _React$PropTypes = _react2.default.PropTypes,
+	    number = _React$PropTypes.number,
+	    string = _React$PropTypes.string,
+	    array = _React$PropTypes.array,
+	    bool = _React$PropTypes.bool,
+	    func = _React$PropTypes.func;
+	
+	TypeaheadList.propTypes = {
+	  selected: number,
+	  value: string,
+	  visible: array,
+	  empty: bool,
+	  extract: func,
+	  onSelected: func
+	};
 	
 	/**
 	 * Defaults
 	 * @static
 	 * @type {Object}
 	 */
-	
-	exports.default = TypeaheadList;
 	TypeaheadList.defaultProps = {
 	  empty: false,
 	  visible: [],
@@ -615,6 +685,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -632,28 +704,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _typeahead2 = _interopRequireDefault(_typeahead);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
 	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+	  } else {
+	    obj[key] = value;
+	  }return obj;
+	}
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 	
-	var TypeaheadOption = (function (_React$Component) {
+	var TypeaheadOption = function (_React$Component) {
 	  _inherits(TypeaheadOption, _React$Component);
 	
 	  /**
 	   * Setup
 	   */
-	
 	  function TypeaheadOption(props) {
 	    _classCallCheck(this, TypeaheadOption);
 	
 	    // Binding
-	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
@@ -685,11 +775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, _typeahead2.default.selected, this.props.selected));
 	
 	    if (this.props.empty) {
-	      return _react2.default.createElement(
-	        'li',
-	        { className: classes },
-	        typeof this.props.empty === 'string' ? this.props.empty : 'No Results...'
-	      );
+	      return _react2.default.createElement('li', { className: classes }, typeof this.props.empty === 'string' ? this.props.empty : 'No Results...');
 	    }
 	
 	    return _react2.default.createElement('li', {
@@ -702,9 +788,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  return TypeaheadOption;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
+	
+	// Type checking
+	
 	
 	exports.default = TypeaheadOption;
+	var _React$PropTypes = _react2.default.PropTypes,
+	    bool = _React$PropTypes.bool,
+	    object = _React$PropTypes.object;
+	
+	TypeaheadOption.propTypes = {
+	  selected: bool,
+	  empty: bool,
+	  option: object
+	};
 	
 	TypeaheadOption.defaultProps = {
 	  empty: false,
@@ -742,23 +840,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Return all elements of `array` that have a fuzzy
 	// match against `pattern`.
 	fuzzy.simpleFilter = function(pattern, array) {
-	  return array.filter(function(string) {
-	    return fuzzy.test(pattern, string);
+	  return array.filter(function(str) {
+	    return fuzzy.test(pattern, str);
 	  });
 	};
 	
-	// Does `pattern` fuzzy match `string`?
-	fuzzy.test = function(pattern, string) {
-	  return fuzzy.match(pattern, string) !== null;
+	// Does `pattern` fuzzy match `str`?
+	fuzzy.test = function(pattern, str) {
+	  return fuzzy.match(pattern, str) !== null;
 	};
 	
-	// If `pattern` matches `string`, wrap each matching character
+	// If `pattern` matches `str`, wrap each matching character
 	// in `opts.pre` and `opts.post`. If no match, return null
-	fuzzy.match = function(pattern, string, opts) {
+	fuzzy.match = function(pattern, str, opts) {
 	  opts = opts || {};
 	  var patternIdx = 0
 	    , result = []
-	    , len = string.length
+	    , len = str.length
 	    , totalScore = 0
 	    , currScore = 0
 	    // prefix
@@ -767,15 +865,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    , post = opts.post || ''
 	    // String to compare against. This might be a lowercase version of the
 	    // raw string
-	    , compareString =  opts.caseSensitive && string || string.toLowerCase()
-	    , ch, compareChar;
+	    , compareString =  opts.caseSensitive && str || str.toLowerCase()
+	    , ch;
 	
 	  pattern = opts.caseSensitive && pattern || pattern.toLowerCase();
 	
 	  // For each character in the string, either add it to the result
 	  // or wrap in template if it's the next string in the pattern
 	  for(var idx = 0; idx < len; idx++) {
-	    ch = string[idx];
+	    ch = str[idx];
 	    if(compareString[idx] === pattern[patternIdx]) {
 	      ch = pre + ch + post;
 	      patternIdx += 1;
@@ -791,6 +889,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  // return rendered string if we have a match for every char
 	  if(patternIdx === pattern.length) {
+	    // if the string is an exact match with pattern, totalScore should be maxed
+	    totalScore = (compareString === pattern) ? Infinity : totalScore;
 	    return {rendered: result.join(''), score: totalScore};
 	  }
 	
@@ -822,6 +922,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	//      , extract: function(arg) { return arg.crying; }
 	//    }
 	fuzzy.filter = function(pattern, arr, opts) {
+	  if(!arr || arr.length === 0) {
+	    return [];
+	  }
+	  if (typeof pattern !== 'string') {
+	    return arr;
+	  }
 	  opts = opts || {};
 	  return arr
 	    .reduce(function(prev, element, idx, arr) {
