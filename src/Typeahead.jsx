@@ -34,6 +34,7 @@ class Typeahead extends React.Component {
       'getResults',
       'handleChange',
       'handleSelected',
+      'handleHide',
       'keyEvent',
       'handleKeyDown',
       'handleBlur',
@@ -44,6 +45,12 @@ class Typeahead extends React.Component {
       'handleOutsideClick'
     ];
     bindFn.forEach(fn => this[fn] = this[fn].bind(this));
+  }
+
+  componentDidMount() {
+    if (this.props.scrollParentClass) {
+      window.addEventListener('resize', this.handleHide);
+    }
   }
 
   /**
@@ -64,6 +71,18 @@ class Typeahead extends React.Component {
       currentValue,
       visible,
       selected: 0
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.props.scrollParentClass) {
+      window.removeEventListener('resize', this.handleHide)
+    }
+  }
+
+  handleHide() {
+    this.setState({
+      hide: true
     });
   }
 
@@ -104,7 +123,7 @@ class Typeahead extends React.Component {
    */
   handleChange(event, callback) {
     let state = {
-      currentValue: event.target.value,
+      currentValue: event.target.value || '',
       selected: 0
     };
 
@@ -251,7 +270,7 @@ class Typeahead extends React.Component {
    * @param     {Event}    event
    */
   handleKeyDown(event) {
-    if (this.isSpecialKey(event.key)) {
+    if (!this.isSpecialKey(event.key)) {
       this.stopHiding();
     }
 
@@ -346,6 +365,7 @@ class Typeahead extends React.Component {
               onFocus={this.props.onFocus}
               value={this.state.currentValue}
               label={this.props.placeholder}
+              error={this.props.error}
               {...customProps}
             />
             {this.props.isLoading ?
@@ -353,12 +373,16 @@ class Typeahead extends React.Component {
             : null}
           </div>
           <TypeaheadList
+            scrollingParentClass={this.props.scrollParentClass}
+            onScrollingParentScroll={this.handleHide}
+            hidden={this.state.hide}
             empty={this.state.hide || this.props.isLoading ? void 0 : this.props.empty}
             selected={this.state.selected}
             value={this.state.currentValue}
             extract={this.props.extract}
             visible={this.state.hide ? [] : this.state.visible}
-            onSelected={this.handleSelected} />
+            onSelected={this.handleSelected}
+          />
         </OutsideClick>
       </div>
     );
