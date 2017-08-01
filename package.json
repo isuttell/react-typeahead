@@ -99,7 +99,8 @@
     ]
   },
   "dependencies": {
-    "ship-components-outsideclick": "^0.1.1",
-    "ship-components-textinput": "^0.2.0"
+    "prop-types": "^15.5.10",
+    "ship-components-outsideclick": "^0.3.0",
+    "ship-components-textinput": "^0.3.9"
   }
 }
