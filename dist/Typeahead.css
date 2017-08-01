@@ -15,6 +15,18 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
 }
 
+/* Fixes the long word bug
+ * SHIPAPPS-119 & SHIPWATCH-707
+ */
+ul.typeahead--list > li.typeahead--item {
+  word-wrap: break-word;
+}
+
+.typeahead--list.typeahead--hidden {
+  height: 0;
+  overflow: hidden;
+}
+
 .typeahead--item {
   padding: 12px 24px;
   white-space: pre-wrap;

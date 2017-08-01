@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"), require("classnames"), require("ship-components-outsideclick"), require("ship-components-textinput"));
+		module.exports = factory(require("React"), require("classnames"), require("react-dom"), require("ship-components-outsideclick"), require("ship-components-textinput"));
 	else if(typeof define === 'function' && define.amd)
-		define(["React", "classnames", "ship-components-outsideclick", "ship-components-textinput"], factory);
+		define(["React", "classnames", "react-dom", "ship-components-outsideclick", "ship-components-textinput"], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("React"), require("classnames"), require("ship-components-outsideclick"), require("ship-components-textinput")) : factory(root["React"], root["classnames"], root["ship-components-outsideclick"], root["ship-components-textinput"]);
+		var a = typeof exports === 'object' ? factory(require("React"), require("classnames"), require("react-dom"), require("ship-components-outsideclick"), require("ship-components-textinput")) : factory(root["React"], root["classnames"], root["react-dom"], root["ship-components-outsideclick"], root["ship-components-textinput"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_10__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -99,11 +99,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _fuzzy2 = _interopRequireDefault(_fuzzy);
 	
-	var _shipComponentsTextinput = __webpack_require__(8);
+	var _shipComponentsTextinput = __webpack_require__(10);
 	
 	var _shipComponentsTextinput2 = _interopRequireDefault(_shipComponentsTextinput);
 	
-	var _shipComponentsOutsideclick = __webpack_require__(7);
+	var _shipComponentsOutsideclick = __webpack_require__(9);
 	
 	var _shipComponentsOutsideclick2 = _interopRequireDefault(_shipComponentsOutsideclick);
 	
@@ -164,12 +164,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    // Ensure proper context
-	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'keyEvent', 'handleKeyDown', 'handleBlur', '_onEnter', '_onUp', '_onDown', 'handleValidate', 'handleOutsideClick'];
+	    var bindFn = ['getResults', 'handleChange', 'handleSelected', 'handleHide', 'keyEvent', 'handleKeyDown', 'handleBlur', '_onEnter', '_onUp', '_onDown', 'handleValidate', 'handleOutsideClick'];
 	    bindFn.forEach(function (fn) {
 	      return _this[fn] = _this[fn].bind(_this);
 	    });
 	    return _this;
 	  }
+	
+	  Typeahead.prototype.componentDidMount = function componentDidMount() {
+	    if (this.props.scrollParentClass) {
+	      window.addEventListener('resize', this.handleHide);
+	    }
+	  };
 	
 	  /**
 	   * Update selection if options change
@@ -191,6 +197,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      currentValue: currentValue,
 	      visible: visible,
 	      selected: 0
+	    });
+	  };
+	
+	  Typeahead.prototype.componentWillUnmount = function componentWillUnmount() {
+	    if (this.props.scrollParentClass) {
+	      window.removeEventListener('resize', this.handleHide);
+	    }
+	  };
+	
+	  Typeahead.prototype.handleHide = function handleHide() {
+	    this.setState({
+	      hide: true
 	    });
 	  };
 	
@@ -237,7 +255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this2 = this;
 	
 	    var state = {
-	      currentValue: event.target.value,
+	      currentValue: event.target.value || '',
 	      selected: 0
 	    };
 	
@@ -393,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	
 	  Typeahead.prototype.handleKeyDown = function handleKeyDown(event) {
-	    if (this.isSpecialKey(event.key)) {
+	    if (!this.isSpecialKey(event.key)) {
 	      this.stopHiding();
 	    }
 	
@@ -457,7 +475,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        editable: true,
 	        validate: this.handleValidate,
 	        minRows: 1,
-	        maxRows: 1
+	        maxRows: 1,
+	        error: this.props.error
 	      };
 	    }
 	
@@ -474,12 +493,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: this.state.currentValue,
 	      label: this.props.placeholder
 	    }, customProps)), this.props.isLoading ? _react2.default.createElement('span', { className: (0, _classnames2.default)('icon-refresh', _typeahead2.default.loading) }) : null), _react2.default.createElement(_TypeaheadList2.default, {
+	      scrollingParentClass: this.props.scrollParentClass,
+	      onScrollingParentScroll: this.handleHide,
+	      hidden: this.state.hide,
 	      empty: this.state.hide || this.props.isLoading ? void 0 : this.props.empty,
 	      selected: this.state.selected,
 	      value: this.state.currentValue,
 	      extract: this.props.extract,
 	      visible: this.state.hide ? [] : this.state.visible,
-	      onSelected: this.handleSelected })));
+	      onSelected: this.handleSelected
+	    })));
 	  };
 	
 	  return Typeahead;
@@ -533,7 +556,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","selected":"typeahead--selected","found":"typeahead--found","loading":"typeahead--loading","spin":"typeahead--spin","editable":"typeahead--editable"};
+	module.exports = {"container":"typeahead--container","list":"typeahead--list","item":"typeahead--item","hidden":"typeahead--hidden","selected":"typeahead--selected","found":"typeahead--found","loading":"typeahead--loading","spin":"typeahead--spin","editable":"typeahead--editable"};
 
 /***/ },
 /* 2 */
@@ -551,7 +574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
 	/** ****************************************************************************
 	 * Typeahead List
@@ -571,6 +594,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(8);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
 	var _classnames = __webpack_require__(3);
 	
@@ -612,27 +639,130 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TypeaheadList = function (_React$Component) {
 	  _inherits(TypeaheadList, _React$Component);
 	
-	  function TypeaheadList() {
+	  function TypeaheadList(props) {
 	    _classCallCheck(this, TypeaheadList);
 	
-	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	
+	    _this.state = {
+	      fixedDropdownStyle: {
+	        top: 'inherit',
+	        width: 'inherit',
+	        left: 'inherit',
+	        position: 'fixed'
+	      }
+	    };
+	    return _this;
 	  }
+	
+	  /**
+	   * Try to keep the selected comp in view
+	   */
+	
+	  TypeaheadList.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+	    // if drop down with scrolling parent became active, update the positioning styles
+	    if (this.shouldCalculateDropdownStyle(prevProps)) {
+	      this.setState(this.fixedDropdownStyle());
+	    }
+	  };
+	
+	  /**
+	   * remove scroll listener if its there
+	   */
+	
+	  TypeaheadList.prototype.componentWillUnmount = function componentWillUnmount() {
+	    if (this.scrollParent) {
+	      this.scrollParent.removeEventListener('scroll', this.props.onScrollingParentScroll);
+	    }
+	  };
+	
+	  TypeaheadList.prototype.shouldCalculateDropdownStyle = function shouldCalculateDropdownStyle(prevProps) {
+	    return this.props.scrollingParentClass && this.props.visible.length > 0 && (prevProps.hidden && !this.props.hidden || this.props.visible.length !== prevProps.visible.length);
+	  };
+	
+	  /**
+	   * Store a reference to Typeahead's scrolling ancestor node
+	   * @param  {string} parentClass  the unique className of the scrolling ancestor node
+	   */
+	
+	  TypeaheadList.prototype.registerScrollParent = function registerScrollParent(parentClass) {
+	    var list = _reactDom2.default.findDOMNode(this);
+	    if (!list) {
+	      return void 0;
+	    }
+	    var ancestor = list.parentNode;
+	    while (ancestor && ancestor !== document) {
+	      if (ancestor.classList.contains(parentClass)) {
+	        ancestor.addEventListener('scroll', this.props.onScrollingParentScroll);
+	        this.scrollParent = ancestor;
+	        return ancestor;
+	      }
+	      ancestor = ancestor.parentNode;
+	    }
+	  };
+	
+	  /**
+	   * Calculate where to place the dropdown when dropdown must have position:fixed
+	   */
+	
+	  TypeaheadList.prototype.fixedDropdownStyle = function fixedDropdownStyle() {
+	    if (!this.scrollParent && !this.registerScrollParent(this.props.scrollingParentClass)) {
+	      if (process.env.NODE_ENV !== 'production') {
+	        console.error('<Typeahead /> could not get scrollParent for fixedDropdownStyle()');
+	      }
+	      return;
+	    }
+	    var parent = _reactDom2.default.findDOMNode(this).parentNode;
+	    var source = parent;
+	    var offsetTop = 0;
+	    var scrollParentTop = this.scrollParent.scrollTop;
+	    while (source) {
+	      offsetTop += source.offsetTop;
+	      source = source.offsetParent;
+	    }
+	
+	    return {
+	      fixedDropdownStyle: {
+	        width: parent.offsetWidth + 'px',
+	        position: 'fixed',
+	        left: 'inherit',
+	        top: offsetTop - scrollParentTop + parent.offsetHeight + 'px'
+	      }
+	    };
+	  };
+	
+	  /**
+	   * Calculate where to place the dropdown when dropdown must have position:fixed
+	   */
+	
+	  TypeaheadList.prototype.getDropdownStyle = function getDropdownStyle() {
+	    return this.props.scrollingParentClass && this.props.visible.length > 0 ? this.state.fixedDropdownStyle : {};
+	  };
+	
+	  TypeaheadList.prototype.hasOptions = function hasOptions() {
+	    return this.props.value && this.props.visible instanceof Array && this.props.visible.length > 0;
+	  };
 	
 	  /**
 	   * Render list by order of score
 	   */
+	
 	  TypeaheadList.prototype.render = function render() {
 	    var _this2 = this;
 	
-	    if (!this.props.value || this.props.visible instanceof Array !== true) {
-	      // Nothing to filter by yet
-	      return null;
-	    } else if (this.props.visible.length === 0 && this.props.empty !== false) {
+	    if (this.props.visible.length === 0 && this.props.empty !== false) {
 	      // Can't find anything
-	      return _react2.default.createElement('ul', { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) }, _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty }));
+	      return _react2.default.createElement('ul', {
+	        className: _typeahead2.default.list
+	      }, _react2.default.createElement(_TypeaheadOption2.default, { empty: this.props.empty }));
 	    }
 	
-	    return _react2.default.createElement('ul', { className: (0, _classnames2.default)('typeahead--list', _typeahead2.default.list) }, this.props.visible.filter(function (item) {
+	    var listClass = this.hasOptions() ? _typeahead2.default.list : (0, _classnames2.default)(_typeahead2.default.list, _typeahead2.default.hidden);
+	    var listStyle = this.getDropdownStyle();
+	    return _react2.default.createElement('ul', {
+	      style: listStyle,
+	      className: (0, _classnames2.default)('typeahead--list', listClass)
+	    }, this.props.visible.filter(function (item) {
 	      return item && item.score && item.original;
 	    }).sort(function (a, b) {
 	      return b.score - a.score;
@@ -679,6 +809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  visible: [],
 	  onSelected: function onSelected() {}
 	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ },
 /* 5 */
@@ -966,13 +1097,205 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+	
+	
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+	
+	
+	
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_9__;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
 
 /***/ }
 /******/ ])

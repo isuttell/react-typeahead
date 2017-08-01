@@ -33,8 +33,7 @@ describe('Typeahead', function(){
     expect(TestUtils.isCompositeComponent(typeahead)).toBeTruthy();
   });
 
-  // TO DO: Complete this
-  xit('should build the layout from the passing props', function() {
+  it('should build the layout from the passing props', function() {
 
     let props = {
       isLoading: false,

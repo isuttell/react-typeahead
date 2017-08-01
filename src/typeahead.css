@@ -15,6 +15,13 @@
   box-shadow: 0 3px 8px color(#000 a(0.24));
 }
 
+/* Fixes the long word bug
+ * SHIPAPPS-119 & SHIPWATCH-707
+ */
+ul.list > li.item {
+  word-wrap: break-word;
+}
+
 .list.hidden {
   height: 0;
   overflow: hidden;
