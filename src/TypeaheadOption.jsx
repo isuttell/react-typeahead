@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import css from './typeahead.css';
@@ -58,7 +59,7 @@ export default class TypeaheadOption extends React.Component {
 }
 
 // Type checking
-const {bool, object} = React.PropTypes;
+const {bool, object} = PropTypes;
 TypeaheadOption.propTypes = {
   selected: bool,
   empty: bool,

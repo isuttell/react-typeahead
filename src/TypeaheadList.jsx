@@ -7,6 +7,7 @@
 
 // Modules
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
@@ -154,7 +155,7 @@ export default class TypeaheadList extends React.Component {
 }
 
 // Type checking
-const {number, string, array, bool, func} = React.PropTypes;
+const {number, string, array, bool, func} = PropTypes;
 TypeaheadList.propTypes = {
   selected:     number,
   value:        string,

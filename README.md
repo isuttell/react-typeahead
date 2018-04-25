@@ -117,6 +117,7 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
+* 1.0.0 - Update to use prop-types (for React 16 compatibility)
 * 0.5.3 - Fixes the UI bug where long option items are cut off.
 * 0.5.2 - Updates to the latest babel configurations (babel-preset-env).
 * 0.5.1 - Bugfix for sometimes-null dropdown dom. Bugfix for Enter key return null value on to change handler.
