@@ -6,7 +6,7 @@ jest.setMock('ship-components-textinput', 'div');
 jest.setMock('react-addons-css-transition-group', 'div');
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 describe('Typeahead', function(){
   let Typeahead;
@@ -26,7 +26,7 @@ describe('Typeahead', function(){
       .not.toThrow();
   });
 
-  it('should exists', function() {
+  it('should exist', function() {
     // Render into document
     let typeahead = TestUtils.renderIntoDocument( <Typeahead/> );
 
@@ -49,12 +49,6 @@ describe('Typeahead', function(){
     let typeaheadElement = TestUtils.scryRenderedDOMComponentsWithClass(typeahead, 'typeahead');
 
     expect(typeaheadElement.length).toEqual(1);
-
-    const renderer = TestUtils.createRenderer();
-    renderer.render(<Typeahead />);
-    const result = renderer.getRenderOutput();
-
-    expect(typeof result.props).toEqual('object');
   });
 
   it('should support custom css classes', function() {

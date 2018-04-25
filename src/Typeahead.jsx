@@ -7,6 +7,7 @@
 
 // Modules
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import fuzzy from 'fuzzy';
 import TextInput from 'ship-components-textinput';
@@ -390,7 +391,7 @@ class Typeahead extends React.Component {
 }
 
 // Type checking
-const {number, string, array, bool, func} = React.PropTypes;
+const {number, string, array, bool, func} = PropTypes;
 Typeahead.propTypes = {
   maxVisible:     number,
   matchedClass:   string,
@@ -400,7 +401,7 @@ Typeahead.propTypes = {
   options:        array,
   clearOnSelect:  bool,
   editable:       bool,
-  empty:          bool,
+  empty:          string,
   isLoading:      bool,
   extract:        func,
   onChange:       func
@@ -409,7 +410,7 @@ Typeahead.propTypes = {
 Typeahead.defaultProps = {
   isLoading: false,
   editable: true,
-  empty: false,
+  empty: '',
   options: [],
   label: '',
   value: '',

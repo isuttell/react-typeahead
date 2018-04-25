@@ -33,7 +33,6 @@ ul.typeahead--list > li.typeahead--item {
   cursor: pointer;
   font-size: 13px;
   position: relative;
-  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   color: #000;
   line-height: 18px;
@@ -55,35 +54,20 @@ ul.typeahead--list > li.typeahead--item {
   position: absolute;
   right: 0;
   top: 0;
-  -webkit-animation: typeahead--spin linear infinite 1s;
-          animation: typeahead--spin linear infinite 1s;
+  animation: typeahead--spin linear infinite 1s;
 }
 
 .typeahead--editable {
 
 }
 
-@-webkit-keyframes typeahead--spin {
-  0% {
-    -webkit-transform: rotate(0);
-            transform: rotate(0);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
 @keyframes typeahead--spin {
   0% {
-    -webkit-transform: rotate(0);
-            transform: rotate(0);
+    transform: rotate(0);
   }
 
   100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 

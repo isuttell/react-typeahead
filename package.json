@@ -1,6 +1,6 @@
 {
   "name": "ship-components-typeahead",
-  "version": "0.5.3",
+  "version": "1.0.0",
   "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {
@@ -69,9 +69,9 @@
     "postcss-loader": "^0.7.0",
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^1.1.0",
+    "raf": "^3.4.0",
     "react": ">=15.0.0",
     "react-addons-css-transition-group": ">=15.0.0",
-    "react-addons-test-utils": ">=15.0.0",
     "react-dom": ">=15.0.0",
     "strict-loader": "^0.1.2",
     "style-loader": "^0.13.0",
@@ -89,8 +89,10 @@
       "<rootDir>/node_modules/classnames",
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/fbjs",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils"
+      "<rootDir>/node_modules/react-dom"
+    ],
+    "setupFiles": [
+      "raf/polyfill"
     ]
   },
   "babelJest": {
@@ -100,7 +102,7 @@
     ]
   },
   "dependencies": {
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.6.1",
     "ship-components-outsideclick": "^0.3.0",
     "ship-components-textinput": "^0.3.9"
   }
