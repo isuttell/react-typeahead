@@ -1,6 +1,6 @@
 {
   "name": "ship-components-typeahead",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Material Design React Typeahead Component",
   "main": "src/Typeahead.jsx",
   "scripts": {
@@ -70,9 +70,8 @@
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^1.1.0",
     "raf": "^3.4.0",
-    "react": "^15.6.2",
-    "react-addons-css-transition-group": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "react": ">=16.0.0 <17.0.0",
+    "react-dom": ">=16.0.0 <17.0.0",
     "strict-loader": "^0.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.4",
