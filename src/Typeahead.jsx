@@ -401,7 +401,7 @@ Typeahead.propTypes = {
   options:        array,
   clearOnSelect:  bool,
   editable:       bool,
-  empty:          string,
+  empty:          bool,
   isLoading:      bool,
   extract:        func,
   onChange:       func
@@ -410,7 +410,7 @@ Typeahead.propTypes = {
 Typeahead.defaultProps = {
   isLoading: false,
   editable: true,
-  empty: '',
+  empty: false,
   options: [],
   label: '',
   value: '',
