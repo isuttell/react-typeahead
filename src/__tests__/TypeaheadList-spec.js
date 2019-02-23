@@ -1,8 +1,5 @@
 jest.unmock('../TypeaheadList');
 
-// Don't need to test these and they currently throw errors
-jest.setMock('react-addons-css-transition-group', 'div');
-
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 

@@ -60,7 +60,7 @@ class Typeahead extends React.Component {
    * @param     {Object}    nextProps
    */
   componentWillReceiveProps(nextProps) {
-    let {currentValue} = this.state;
+    let { currentValue } = this.state;
     if (nextProps.value !== this.props.value) {
       currentValue = nextProps.value;
     }
@@ -137,7 +137,7 @@ class Typeahead extends React.Component {
     }
 
     this.setState(state, () => {
-      if (typeof this.props.onChange === 'function'){
+      if (typeof this.props.onChange === 'function') {
         this.props.onChange({
           target: {
             value: this.state.currentValue
@@ -150,11 +150,11 @@ class Typeahead extends React.Component {
     });
   }
 
- /**
-   * Handle list item clicks
-   *
-   * @param     {Object}    option
-   */
+  /**
+    * Handle list item clicks
+    *
+    * @param     {Object}    option
+    */
   handleSelected(option, event) {
     event.stopPropagation();
     if (typeof option !== 'object') {
@@ -195,8 +195,8 @@ class Typeahead extends React.Component {
    * @param     {string}    keyName
    * @return    {Function}
    */
-  keyEvent(keyName){
-    switch(keyName) {
+  keyEvent(keyName) {
+    switch (keyName) {
       case 'Enter':
         // if menu is hidden, do normal tab behavior
         return this.state.hide ? void 0 : this._onEnter;
@@ -276,7 +276,7 @@ class Typeahead extends React.Component {
     }
 
     const handler = this.keyEvent(event.key);
-    if (typeof handler === 'function'){
+    if (typeof handler === 'function') {
       event.preventDefault();
       handler.call(this, event);
     }
@@ -321,6 +321,13 @@ class Typeahead extends React.Component {
     return true;
   }
 
+  getCurrentValue() {
+    const currentOption = this.props.options.find((option) => {
+      return option.value === this.state.currentValue;
+    });
+    const currentValue = currentOption ? currentOption.name : this.state.currentValue;
+    return currentValue;
+  }
   /**
    * Render
    *
@@ -330,8 +337,8 @@ class Typeahead extends React.Component {
     let classes = classNames(
       'typeahead',
       this.props.className, {
-        [css.editable] : this.props.editable,
-        'typeahead--editable' : this.props.editable
+        [css.editable]: this.props.editable,
+        'typeahead--editable': this.props.editable
       }
     );
 
@@ -341,7 +348,7 @@ class Typeahead extends React.Component {
 
     // Type checking to prevent React 15 warning
     let customProps = null;
-    if(this.refs.textInput && typeof this.refs.textInput === 'object') {
+    if (this.refs.textInput && typeof this.refs.textInput === 'object') {
       customProps = {
         editable: true,
         validate: this.handleValidate,
@@ -365,13 +372,13 @@ class Typeahead extends React.Component {
               onKeyDown={this.handleKeyDown}
               onBlur={this.handleBlur}
               onFocus={this.props.onFocus}
-              value={this.state.currentValue}
+              value={this.getCurrentValue()}
               label={this.props.placeholder}
               {...customProps}
             />
             {this.props.isLoading ?
-              <span className={classNames('icon-refresh', css.loading)}/>
-            : null}
+              <span className={classNames('icon-refresh', css.loading)} />
+              : null}
           </div>
           <TypeaheadList
             scrollingParentClass={this.props.scrollParentClass}
@@ -391,26 +398,26 @@ class Typeahead extends React.Component {
 }
 
 // Type checking
-const {number, string, array, bool, func} = PropTypes;
+const { number, string, array, bool, func } = PropTypes;
 Typeahead.propTypes = {
-  maxVisible:     number,
-  matchedClass:   string,
-  placeholder:    string,
-  value:          string,
-  label:          string,
-  options:        array,
-  clearOnSelect:  bool,
-  editable:       bool,
-  empty:          string,
-  isLoading:      bool,
-  extract:        func,
-  onChange:       func
+  maxVisible: number,
+  matchedClass: string,
+  placeholder: string,
+  value: string,
+  label: string,
+  options: array,
+  clearOnSelect: bool,
+  editable: bool,
+  empty: bool,
+  isLoading: bool,
+  extract: func,
+  onChange: func
 }
 
 Typeahead.defaultProps = {
   isLoading: false,
   editable: true,
-  empty: '',
+  empty: false,
   options: [],
   label: '',
   value: '',
@@ -418,7 +425,7 @@ Typeahead.defaultProps = {
   maxVisible: 5,
   clearOnSelect: false,
   matchedClass: 'typeahead-found',
-  extract: function(item) {
+  extract: function (item) {
     return item;
   }
 }
