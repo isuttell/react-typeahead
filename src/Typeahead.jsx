@@ -321,6 +321,13 @@ class Typeahead extends React.Component {
     return true;
   }
 
+  getCurrentValue() {
+    const currentOption = this.props.options.find((option) => {
+      return option.value === this.state.currentValue;
+    });
+    const currentValue = currentOption ? currentOption.name : this.state.currentValue;
+    return currentValue;
+  }
   /**
    * Render
    *
@@ -351,11 +358,6 @@ class Typeahead extends React.Component {
       };
     }
 
-    const currentOption = this.props.options.find((option) => {
-      return option.value === this.state.currentValue;
-    });
-    const currentValue = currentOption ? currentOption.name : this.state.currentValue;
-
     return (
       <div className={classes}>
         <OutsideClick
@@ -370,7 +372,7 @@ class Typeahead extends React.Component {
               onKeyDown={this.handleKeyDown}
               onBlur={this.handleBlur}
               onFocus={this.props.onFocus}
-              value={currentValue}
+              value={this.getCurrentValue()}
               label={this.props.placeholder}
               {...customProps}
             />
