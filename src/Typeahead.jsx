@@ -325,7 +325,7 @@ class Typeahead extends React.Component {
     const currentOption = this.props.options.find((option) => {
       return option.value === this.state.currentValue;
     });
-    const currentValue = currentOption ? currentOption.name : this.state.currentValue;
+    const currentValue = currentOption && currentOption.name ? currentOption.name : this.state.currentValue;
     return currentValue;
   }
   /**

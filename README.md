@@ -117,6 +117,7 @@ Below are is a sample of how to setup the loaders:
 2. `npm test`
 
 ## History
+* 2.0.2 - Fixed a bug with rendering currently selected option
 * 2.0.1 - Render currently selected option
 * 2.0.0 - Upgrade to React 16
 * 1.0.1 - Update to use postcss-calc 6
